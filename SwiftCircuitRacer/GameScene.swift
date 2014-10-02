@@ -24,6 +24,7 @@ class GameScene: SKScene {
     var numberOfLaps = 0
     
     var box1: SKSpriteNode!, box2: SKSpriteNode!
+    var laps: SKLabelNode!, time: SKLabelNode!
     
     override func didMoveToView(view: SKView) {
         initializeGame()
@@ -35,6 +36,7 @@ class GameScene: SKScene {
         setupPhysicsBodies()
         loadCarTexture()
         loadObstacles()
+        addLabels()
     }
     
     func loadLevel() {
@@ -81,5 +83,13 @@ class GameScene: SKScene {
     func loadObstacles() {
         box1 = self.childNodeWithName("box_1") as SKSpriteNode
         box2 = self.childNodeWithName("box_2") as SKSpriteNode
+    }
+    
+    func addLabels() {
+        laps = self.childNodeWithName("laps_label") as SKLabelNode
+        time = self.childNodeWithName("time_left_label") as SKLabelNode
+        
+        laps.text = "Laps: \(numberOfLaps)"
+        time.text = "Time: \(timeInSeconds)"
     }
 }
