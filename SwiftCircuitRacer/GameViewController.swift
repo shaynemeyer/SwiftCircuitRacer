@@ -27,6 +27,8 @@ extension SKNode {
 
 class GameViewController: UIViewController {
 
+    var analogControl: AnalogControl!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -48,6 +50,13 @@ class GameViewController: UIViewController {
             skView.presentScene(scene)
             
             skView.showsPhysics = true
+            
+            let padSide: CGFloat = view.frame.size.height / 2.5
+            let padPadding: CGFloat = view.frame.size.height / 32
+            
+            analogControl = AnalogControl(frame: CGRectMake(padPadding, skView.frame.size.height - padPadding - padSide, padSide, padSide))
+            
+            view.addSubview(analogControl)
         }
     }
 
