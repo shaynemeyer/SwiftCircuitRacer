@@ -31,6 +31,7 @@ class GameScene: SKScene {
         loadLevel()
         loadTrackTexture()
         setupPhysicsBodies()
+        loadCarTexture()
     }
     
     func loadLevel() {
@@ -67,5 +68,10 @@ class GameScene: SKScene {
         let playableRect = CGRect(x: playableMaringX, y: playableMarginY, width: trackFrame.size.width, height: trackFrame.size.height - playableMarginY * 2)
         
         physicsBody = SKPhysicsBody(edgeLoopFromRect: playableRect)
+    }
+    
+    func loadCarTexture() {
+        let car = self.childNodeWithName("car") as SKSpriteNode
+        car.texture = SKTexture(imageNamed: "car_\(carType.toRaw() + 1)")
     }
 }
