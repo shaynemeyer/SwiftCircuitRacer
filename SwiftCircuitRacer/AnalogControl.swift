@@ -14,11 +14,11 @@ class AnalogControl: UIView {
     let knobImageView: UIImageView
     
     override init(frame viewFrame: CGRect) {
-        // 1
+        // calculate the neutral position of the knob.
         baseCenter = CGPoint(x: viewFrame.size.width / 2,
             y: viewFrame.size.height / 2)
         
-        // 2
+        // create the knob from knob.png and display in a neutral position.
         knobImageView = UIImageView(image: UIImage(named: "knob"))
         knobImageView.frame.size.width /= 2
         knobImageView.frame.size.height /= 2
@@ -26,18 +26,18 @@ class AnalogControl: UIView {
         
         super.init(frame: viewFrame)
         
-        // 3
+        // set touches enabled.
         userInteractionEnabled = true
         
-        // 4
+        // create a view out of base.png
         let baseImageView = UIImageView(frame: bounds)
         baseImageView.image = UIImage(named: "base")
         addSubview(baseImageView)
         
-        // 5
+        // add the knob to the view
         addSubview(knobImageView)
         
-        // 6
+        // check the controls bounding box contains the entire knob
         assert(CGRectContainsRect(bounds, knobImageView.bounds),
             "Analog control should be larger than the knob in size")
     }
