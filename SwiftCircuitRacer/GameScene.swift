@@ -30,6 +30,7 @@ class GameScene: SKScene {
     func initializeGame() {
         loadLevel()
         loadTrackTexture()
+        setupPhysicsBodies()
     }
     
     func loadLevel() {
@@ -46,5 +47,25 @@ class GameScene: SKScene {
     func loadTrackTexture() {
         let track = self.childNodeWithName("track") as SKSpriteNode
         track.texture = SKTexture(imageNamed: "track_\(levelType.toRaw() + 1)")
+    }
+    
+    func setupPhysicsBodies() {
+        let innerBoundary = SKNode()
+        innerBoundary.position = childNodeWithName("track")!.position
+        addChild(innerBoundary)
+        
+        innerBoundary.physicsBody = SKPhysicsBody(rectangleOfSize: CGSizeMake(720, 480))
+        innerBoundary.physicsBody!.dynamic = false
+        
+        let trackFrame = CGRectInset(self.childNodeWithName("track")!.frame, 200, 0)
+        
+        let maxAspectRatio: CGFloat = 3.0 / 2.0 // iPhone 4
+        let maxAspectRatioHeight = trackFrame.size.width / maxAspectRatio
+        let playableMarginY: CGFloat = (trackFrame.size.height - maxAspectRatioHeight) / 2
+        let playableMaringX: CGFloat = (frame.size.width - trackFrame.size.width) / 2
+        
+        let playableRect = CGRect(x: playableMaringX, y: playableMarginY, width: trackFrame.size.width, height: trackFrame.size.height - playableMarginY * 2)
+        
+        physicsBody = SKPhysicsBody(edgeLoopFromRect: playableRect)
     }
 }
