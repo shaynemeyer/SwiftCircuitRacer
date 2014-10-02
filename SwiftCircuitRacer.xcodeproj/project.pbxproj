@@ -77,6 +77,7 @@
 		ED94EE1819DD79EC000C44CF /* SKTEffects.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED94EE0C19DD79EC000C44CF /* SKTEffects.swift */; };
 		ED94EE1919DD79EC000C44CF /* SKTTimingFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED94EE0D19DD79EC000C44CF /* SKTTimingFunctions.swift */; };
 		ED94EE1A19DD79EC000C44CF /* Vector3.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED94EE0E19DD79EC000C44CF /* Vector3.swift */; };
+		EDAB159719DE18CF00CE9143 /* AnalogControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDAB159619DE18CF00CE9143 /* AnalogControl.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -164,6 +165,7 @@
 		ED94EE0C19DD79EC000C44CF /* SKTEffects.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SKTEffects.swift; sourceTree = "<group>"; };
 		ED94EE0D19DD79EC000C44CF /* SKTTimingFunctions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SKTTimingFunctions.swift; sourceTree = "<group>"; };
 		ED94EE0E19DD79EC000C44CF /* Vector3.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Vector3.swift; sourceTree = "<group>"; };
+		EDAB159619DE18CF00CE9143 /* AnalogControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnalogControl.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -206,6 +208,7 @@
 			isa = PBXGroup;
 			children = (
 				ED94ED7019DD77AE000C44CF /* AppDelegate.swift */,
+				EDAB159619DE18CF00CE9143 /* AnalogControl.swift */,
 				ED94ED7219DD77AE000C44CF /* GameScene.sks */,
 				ED94ED7419DD77AE000C44CF /* GameScene.swift */,
 				ED94ED7619DD77AE000C44CF /* GameViewController.swift */,
@@ -544,6 +547,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				ED94ED7519DD77AE000C44CF /* GameScene.swift in Sources */,
+				EDAB159719DE18CF00CE9143 /* AnalogControl.swift in Sources */,
 				ED94EE1019DD79EC000C44CF /* CGPoint+Extensions.swift in Sources */,
 				ED94EE1919DD79EC000C44CF /* SKTTimingFunctions.swift in Sources */,
 				ED94EE1819DD79EC000C44CF /* SKTEffects.swift in Sources */,
@@ -751,6 +755,7 @@
 				ED94ED9019DD77AE000C44CF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		ED94ED9119DD77AE000C44CF /* Build configuration list for PBXNativeTarget "SwiftCircuitRacerTests" */ = {
 			isa = XCConfigurationList;
@@ -759,6 +764,7 @@
 				ED94ED9319DD77AE000C44CF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
