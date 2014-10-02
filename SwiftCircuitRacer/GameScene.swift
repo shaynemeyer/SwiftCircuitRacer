@@ -23,6 +23,8 @@ class GameScene: SKScene {
     var timeInSeconds = 0
     var numberOfLaps = 0
     
+    var box1: SKSpriteNode!, box2: SKSpriteNode!
+    
     override func didMoveToView(view: SKView) {
         initializeGame()
     }
@@ -32,6 +34,7 @@ class GameScene: SKScene {
         loadTrackTexture()
         setupPhysicsBodies()
         loadCarTexture()
+        loadObstacles()
     }
     
     func loadLevel() {
@@ -73,5 +76,10 @@ class GameScene: SKScene {
     func loadCarTexture() {
         let car = self.childNodeWithName("car") as SKSpriteNode
         car.texture = SKTexture(imageNamed: "car_\(carType.toRaw() + 1)")
+    }
+    
+    func loadObstacles() {
+        box1 = self.childNodeWithName("box_1") as SKSpriteNode
+        box2 = self.childNodeWithName("box_2") as SKSpriteNode
     }
 }
