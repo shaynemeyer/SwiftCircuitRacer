@@ -42,7 +42,12 @@ class GameViewController: UIViewController {
             /* Set the scale mode to scale to fit the window */
             scene.scaleMode = .AspectFill
             
+            scene.levelType = LevelType.Easy
+            scene.carType = CarType.Yellow
+            
             skView.presentScene(scene)
+            
+            skView.showsPhysics = true
         }
     }
 

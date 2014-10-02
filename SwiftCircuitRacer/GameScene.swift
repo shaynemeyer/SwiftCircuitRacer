@@ -8,38 +8,43 @@
 
 import SpriteKit
 
+enum CarType: Int {
+    case Yellow, Blue, Red
+}
+
+enum LevelType: Int {
+    case Easy, Medium, Hard
+}
+
 class GameScene: SKScene {
+    
+    var carType: CarType!
+    var levelType: LevelType!
+    var timeInSeconds = 0
+    var numberOfLaps = 0
+    
     override func didMoveToView(view: SKView) {
-        /* Setup your scene here */
-        let myLabel = SKLabelNode(fontNamed:"Chalkduster")
-        myLabel.text = "Hello, World!";
-        myLabel.fontSize = 65;
-        myLabel.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame));
-        
-        self.addChild(myLabel)
+        initializeGame()
+    }
+
+    func initializeGame() {
+        loadLevel()
+        loadTrackTexture()
     }
     
-    override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
-        /* Called when a touch begins */
+    func loadLevel() {
+        let filePath = NSBundle.mainBundle().pathForResource("LevelDetails", ofType: "plist")!
         
-        for touch: AnyObject in touches {
-            let location = touch.locationInNode(self)
-            
-            let sprite = SKSpriteNode(imageNamed:"Spaceship")
-            
-            sprite.xScale = 0.5
-            sprite.yScale = 0.5
-            sprite.position = location
-            
-            let action = SKAction.rotateByAngle(CGFloat(M_PI), duration:1)
-            
-            sprite.runAction(SKAction.repeatActionForever(action))
-            
-            self.addChild(sprite)
-        }
+        let levels = NSArray(contentsOfFile: filePath)
+        
+        let levelData = levels[levelType.toRaw()] as NSDictionary
+        
+        timeInSeconds = levelData["time"] as Int
+        numberOfLaps = levelData["laps"] as Int
     }
-   
-    override func update(currentTime: CFTimeInterval) {
-        /* Called before each frame is rendered */
+    
+    func loadTrackTexture() {
+        let track = self.childNodeWithName("track") as SKSpriteNode
+        track.texture = SKTexture(imageNamed: "track_\(levelType.toRaw() + 1)")
     }
 }
