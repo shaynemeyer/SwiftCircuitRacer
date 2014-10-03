@@ -13,6 +13,8 @@ class AnalogControl: UIView {
     let baseCenter: CGPoint
     let knobImageView: UIImageView
     
+    var relativePosition: CGPoint!
+    
     override init(frame viewFrame: CGRect) {
         // calculate the neutral position of the knob.
         baseCenter = CGPoint(x: viewFrame.size.width / 2,
@@ -46,4 +48,53 @@ class AnalogControl: UIView {
         fatalError("NSCoding not supported")
     }
 
+    func updateKnobWithPosition(position:CGPoint) {
+        // Substract the position of the touch from the center of the joypad image.
+        var positionToCenter = position - baseCenter
+        var direction: CGPoint
+        
+        if positionToCenter == CGPointZero {
+            direction = CGPointZero
+        } else {
+            direction = positionToCenter.normalized()
+        }
+        
+        // calculate the radius and the length of the relative offset.
+        let radius = frame.size.width / 2
+        var length = positionToCenter.length()
+        
+        // if length is greater than radius, make a vector that points in the same direction but has length of the radius.
+        if length > radius {
+            length = radius
+            positionToCenter = direction * radius
+        }
+        
+        let relPosition = CGPoint(x: direction.x * (length/radius),
+            y: direction.y * (length/radius))
+        
+        knobImageView.center = baseCenter + positionToCenter
+        relativePosition = relPosition
+    }
+    
+    override func touchesBegan(touches: NSSet,
+        withEvent event: UIEvent) {
+        let touchLocation = touches.anyObject()!.locationInView(self)
+        updateKnobWithPosition(touchLocation)
+    }
+    
+    override func touchesMoved(touches: NSSet,
+        withEvent event: UIEvent) {
+        let touchLocation = touches.anyObject()!.locationInView(self)
+        updateKnobWithPosition(touchLocation)
+    }
+    
+    override func touchesEnded(touches: NSSet,
+        withEvent event: UIEvent) {
+        updateKnobWithPosition(baseCenter)
+    }
+    
+    override func touchesCancelled(touches: NSSet!,
+        withEvent event: UIEvent!) {
+        updateKnobWithPosition(baseCenter)
+    }
 }
