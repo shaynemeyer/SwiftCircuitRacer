@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		ED7A1CCF19E05F0700B5ABEA /* SelectCarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED7A1CCE19E05F0700B5ABEA /* SelectCarViewController.swift */; };
+		ED7A1CD119E05F2700B5ABEA /* SelectLevelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED7A1CD019E05F2700B5ABEA /* SelectLevelViewController.swift */; };
 		ED94ED7119DD77AE000C44CF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED94ED7019DD77AE000C44CF /* AppDelegate.swift */; };
 		ED94ED7319DD77AE000C44CF /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = ED94ED7219DD77AE000C44CF /* GameScene.sks */; };
 		ED94ED7519DD77AE000C44CF /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED94ED7419DD77AE000C44CF /* GameScene.swift */; };
@@ -91,6 +93,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		ED7A1CCE19E05F0700B5ABEA /* SelectCarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectCarViewController.swift; sourceTree = "<group>"; };
+		ED7A1CD019E05F2700B5ABEA /* SelectLevelViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectLevelViewController.swift; sourceTree = "<group>"; };
 		ED94ED6B19DD77AE000C44CF /* SwiftCircuitRacer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwiftCircuitRacer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED94ED6F19DD77AE000C44CF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		ED94ED7019DD77AE000C44CF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -212,12 +216,14 @@
 				ED94ED7219DD77AE000C44CF /* GameScene.sks */,
 				ED94ED7419DD77AE000C44CF /* GameScene.swift */,
 				ED94ED7619DD77AE000C44CF /* GameViewController.swift */,
+				ED7A1CCE19E05F0700B5ABEA /* SelectCarViewController.swift */,
 				ED94ED7819DD77AE000C44CF /* Main.storyboard */,
 				ED94ED7B19DD77AE000C44CF /* Images.xcassets */,
 				ED94ED7D19DD77AE000C44CF /* LaunchScreen.xib */,
 				ED94EE0219DD79EC000C44CF /* SKTUtils */,
 				ED94ED9419DD77E0000C44CF /* Resources */,
 				ED94ED6E19DD77AE000C44CF /* Supporting Files */,
+				ED7A1CD019E05F2700B5ABEA /* SelectLevelViewController.swift */,
 			);
 			path = SwiftCircuitRacer;
 			sourceTree = "<group>";
@@ -557,10 +563,12 @@
 				ED94EE1519DD79EC000C44CF /* SKColor+Extensions.swift in Sources */,
 				ED94ED7719DD77AE000C44CF /* GameViewController.swift in Sources */,
 				ED94EE1219DD79EC000C44CF /* Int+Extensions.swift in Sources */,
+				ED7A1CD119E05F2700B5ABEA /* SelectLevelViewController.swift in Sources */,
 				ED94EE1619DD79EC000C44CF /* SKNode+Extensions.swift in Sources */,
 				ED94EE1719DD79EC000C44CF /* SKTAudio.swift in Sources */,
 				ED94EE0F19DD79EC000C44CF /* CGFloat+Extensions.swift in Sources */,
 				ED94EE1A19DD79EC000C44CF /* Vector3.swift in Sources */,
+				ED7A1CCF19E05F0700B5ABEA /* SelectCarViewController.swift in Sources */,
 				ED94ED7119DD77AE000C44CF /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -689,6 +697,7 @@
 				INFOPLIST_FILE = SwiftCircuitRacer/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -699,6 +708,7 @@
 				INFOPLIST_FILE = SwiftCircuitRacer/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
