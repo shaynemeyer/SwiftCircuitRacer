@@ -16,7 +16,7 @@ enum LevelType: Int {
     case Easy, Medium, Hard
 }
 
-class GameScene: SKScene {
+class GameScene: SKScene, AnalogControlPositionChange {
     
     var carType: CarType!
     var levelType: LevelType!
@@ -25,6 +25,8 @@ class GameScene: SKScene {
     
     var box1: SKSpriteNode!, box2: SKSpriteNode!
     var laps: SKLabelNode!, time: SKLabelNode!
+    
+    var maxSpeed = 0
     
     override func didMoveToView(view: SKView) {
         initializeGame()
@@ -37,6 +39,8 @@ class GameScene: SKScene {
         loadCarTexture()
         loadObstacles()
         addLabels()
+        
+        maxSpeed = 500 * (2 + carType.toRaw())
     }
     
     func loadLevel() {
@@ -91,5 +95,11 @@ class GameScene: SKScene {
         
         laps.text = "Laps: \(numberOfLaps)"
         time.text = "Time: \(timeInSeconds)"
+    }
+    
+    func analogControlPositionChanged(analogControl: AnalogControl, position: CGPoint) {
+        let car = self.childNodeWithName("car") as SKSpriteNode
+        
+        car.physicsBody!.velocity = CGVector(position.x * CGFloat(maxSpeed), position.y * CGFloat(maxSpeed))
     }
 }

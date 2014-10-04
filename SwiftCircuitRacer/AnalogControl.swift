@@ -8,12 +8,18 @@
 
 import UIKit
 
+protocol AnalogControlPositionChange {
+    func analogControlPositionChanged(analogControl: AnalogControl, position: CGPoint)
+}
+
 class AnalogControl: UIView {
 
     let baseCenter: CGPoint
     let knobImageView: UIImageView
     
     var relativePosition: CGPoint!
+    
+    var delegate: AnalogControlPositionChange?
     
     override init(frame viewFrame: CGRect) {
         // calculate the neutral position of the knob.
@@ -74,6 +80,8 @@ class AnalogControl: UIView {
         
         knobImageView.center = baseCenter + positionToCenter
         relativePosition = relPosition
+        
+        delegate?.analogControlPositionChanged(self, position: relativePosition)
     }
     
     override func touchesBegan(touches: NSSet,

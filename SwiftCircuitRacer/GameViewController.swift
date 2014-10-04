@@ -56,6 +56,8 @@ class GameViewController: UIViewController {
             
             analogControl = AnalogControl(frame: CGRectMake(padPadding, skView.frame.size.height - padPadding - padSide, padSide, padSide))
             
+            analogControl.delegate = scene
+            
             view.addSubview(analogControl)
         }
     }
