@@ -48,6 +48,9 @@
                                 <state key="normal" image="btn-car1.png">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="carButtonPressed:" destination="JZ7-Gz-T2Q" eventType="touchUpInside" id="im9-zS-sTt"/>
+                                </connections>
                             </button>
                             <button opaque="NO" tag="2" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="in4-mw-DS3">
                                 <rect key="frame" x="436" y="285" width="121" height="169"/>
@@ -57,6 +60,9 @@
                                 <state key="normal" image="btn-car3.png">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="carButtonPressed:" destination="JZ7-Gz-T2Q" eventType="touchUpInside" id="RSs-CT-SAP"/>
+                                </connections>
                             </button>
                             <button opaque="NO" tag="1" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0Oq-ho-NUV">
                                 <rect key="frame" x="260" y="285" width="121" height="169"/>
@@ -66,6 +72,9 @@
                                 <state key="normal" image="btn-car2.png">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="carButtonPressed:" destination="JZ7-Gz-T2Q" eventType="touchUpInside" id="cYe-kp-jZW"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>

@@ -10,6 +10,7 @@ import UIKit
 
 class SelectLevelViewController: UIViewController {
 
+    var carType: CarType!
     override func viewDidLoad() {
         super.viewDidLoad()
 

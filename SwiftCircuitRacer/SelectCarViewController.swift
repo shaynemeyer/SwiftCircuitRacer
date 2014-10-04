@@ -15,6 +15,12 @@ class SelectCarViewController: UIViewController {
 
         // Do any additional setup after loading the view.
     }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        SKTAudio.sharedInstance().playBackgroundMusic("circuitracer.mp3")
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -22,14 +28,15 @@ class SelectCarViewController: UIViewController {
     }
     
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue!, sender: AnyObject!) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    @IBAction func carButtonPressed(sender: UIButton) {
+        SKTAudio.sharedInstance().playSoundEffect("button_press.wav")
+        
+        let levelViewController = self.storyboard!.instantiateViewControllerWithIdentifier("SelectLevelViewController") as SelectLevelViewController
+        
+        levelViewController.carType = CarType.fromRaw(sender.tag)!
+        navigationController!.pushViewController(levelViewController, animated: true)
     }
-    */
+    
+    
 
 }
