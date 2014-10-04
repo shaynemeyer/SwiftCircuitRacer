@@ -22,15 +22,23 @@ class SelectLevelViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue!, sender: AnyObject!) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    // MARK: IBAction Methods
+    @IBAction func backButtonPressed(sender: UIButton) {
+        navigationController!.popViewControllerAnimated(true)
+        SKTAudio.sharedInstance().playSoundEffect("button_press.wav")
     }
-    */
+    
+    @IBAction func levelButtonPressed(sender: UIButton) {
+        SKTAudio.sharedInstance().playSoundEffect("button_press.wav")
+        
+        let levelType = LevelType.fromRaw(sender.tag)
+        
+        let gameViewController = self.storyboard!.instantiateViewControllerWithIdentifier("GameViewController") as GameViewController
+        
+        gameViewController.carType = carType
+        gameViewController.levelType = levelType
+        
+        navigationController!.pushViewController(gameViewController, animated: true)
+    }
 
 }

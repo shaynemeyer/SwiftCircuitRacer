@@ -124,6 +124,9 @@
                                 <state key="normal" image="btn-back.png">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="backButtonPressed:" destination="yTX-QD-AYn" eventType="touchUpInside" id="H9U-E4-6xs"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Otu-5S-8c3">
                                 <rect key="frame" x="150" y="251" width="301" height="55"/>
@@ -133,6 +136,9 @@
                                 <state key="normal" title="Button" image="btn-easy.png">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="levelButtonPressed:" destination="yTX-QD-AYn" eventType="touchUpInside" id="Mbb-eD-ifp"/>
+                                </connections>
                             </button>
                             <button opaque="NO" tag="1" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="787-zC-cC3">
                                 <rect key="frame" x="150" y="326" width="301" height="55"/>
@@ -142,6 +148,9 @@
                                 <state key="normal" image="btn-medium.png">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="levelButtonPressed:" destination="yTX-QD-AYn" eventType="touchUpInside" id="eTb-S6-IIq"/>
+                                </connections>
                             </button>
                             <button opaque="NO" tag="2" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qta-Ti-C1C">
                                 <rect key="frame" x="150" y="404" width="301" height="55"/>
@@ -151,6 +160,9 @@
                                 <state key="normal" image="btn-hard.png">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="levelButtonPressed:" destination="yTX-QD-AYn" eventType="touchUpInside" id="iNQ-Wu-QdM"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
