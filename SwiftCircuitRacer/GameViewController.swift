@@ -54,7 +54,10 @@ class GameViewController: UIViewController {
             let padSide: CGFloat = view.frame.size.height / 2.5
             let padPadding: CGFloat = view.frame.size.height / 32
             
-            analogControl = AnalogControl(frame: CGRectMake(padPadding, skView.frame.size.height - padPadding - padSide, padSide, padSide))
+            analogControl = AnalogControl(frame: CGRectMake(padPadding,
+                skView.frame.size.height - padPadding - padSide,
+                padSide,
+                padSide))
             
             analogControl.delegate = scene
             
