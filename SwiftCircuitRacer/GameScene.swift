@@ -28,6 +28,9 @@ class GameScene: SKScene, AnalogControlPositionChange {
     
     var maxSpeed = 0
     
+    var trackCenter = CGPoint.zeroPoint
+    var nextProgressAngle = M_PI
+    
     override func didMoveToView(view: SKView) {
         initializeGame()
     }
@@ -41,6 +44,8 @@ class GameScene: SKScene, AnalogControlPositionChange {
         addLabels()
         
         maxSpeed = 500 * (2 + carType.toRaw())
+        
+        trackCenter = childNodeWithName("track")!.position
     }
     
     func loadLevel() {
@@ -104,6 +109,30 @@ class GameScene: SKScene, AnalogControlPositionChange {
         
         if position != CGPointZero {
             car.zRotation = CGPointMake(position.x, -position.y).angle
+        }
+    }
+    
+    override func update(currentTime: NSTimeInterval) {
+        let carPosition = childNodeWithName("car")!.position
+        let vector = carPosition - trackCenter
+        let progressAngle = Double(vector.angle) + M_PI
+        
+        // check whether the current angle is greater than the next target, but only by a little it: M_PI_4. This prevents the player from going backward.
+        if progressAngle > nextProgressAngle && (progressAngle - nextProgressAngle) < M_PI_4 {
+            // move on to the next quadrant.
+            nextProgressAngle += M_PI_2
+            
+            //
+            if nextProgressAngle >= (2 * M_PI) {
+                nextProgressAngle = 0
+            }
+            
+            // if next target angle = M_PI, car has just passed the finish line.
+            if fabs(nextProgressAngle - M_PI) < Double(FLT_EPSILON) {
+                // lap completed!
+                numberOfLaps -= 1
+                laps.text = "Laps: \(numberOfLaps)"
+            }
         }
     }
 }
