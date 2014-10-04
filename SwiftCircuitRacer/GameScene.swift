@@ -33,6 +33,8 @@ class GameScene: SKScene, AnalogControlPositionChange {
     
     var boxSoundAction: SKAction!, hornSoundAction: SKAction!, lapSoundAction: SKAction!, nitroSoundAction: SKAction!
     
+    var previousTimeInterval: CFTimeInterval = 0
+    
     override func didMoveToView(view: SKView) {
         initializeGame()
     }
@@ -120,6 +122,23 @@ class GameScene: SKScene, AnalogControlPositionChange {
     }
     
     override func update(currentTime: NSTimeInterval) {
+        if previousTimeInterval == 0 {
+            previousTimeInterval = currentTime
+        }
+        
+        if paused {
+            previousTimeInterval = currentTime
+            return
+        }
+        
+        if currentTime - previousTimeInterval > 1 {
+            timeInSeconds -= Int(currentTime - previousTimeInterval)
+            previousTimeInterval = currentTime
+            if timeInSeconds >= 0 {
+                time.text = "Time: \(timeInSeconds)"
+            }
+        }
+        
         let carPosition = childNodeWithName("car")!.position
         let vector = carPosition - trackCenter
         let progressAngle = Double(vector.angle) + M_PI
