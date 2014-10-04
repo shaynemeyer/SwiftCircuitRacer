@@ -107,6 +107,24 @@ class GameViewController: UIViewController {
         return true
     }
     
+    // MARK: IBAction Methods
+    @IBAction func showInGameMenu(sender: AnyObject!) {
+        (self.view as SKView).paused = true
+        
+        let alert = UIAlertController(title: "Game Menu", message: nil, preferredStyle: .Alert)
+        
+        alert.addAction(UIAlertAction(title: "Go to menu", style: .Default, {_ in
+            (self.view as SKView).paused = false
+            self.gameOverWithWin(false)
+        }))
+        
+        alert.addAction(UIAlertAction(title: "Resume level", style: .Default, {_ in
+            (self.view as SKView).paused = false
+        }))
+        
+        presentViewController(alert, animated: true, completion: nil)
+    }
+    
     // MARK: UIAlert Methods
     
     func goBack(alert: UIAlertController) {

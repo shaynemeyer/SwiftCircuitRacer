@@ -18,7 +18,48 @@
                     <view key="view" contentMode="scaleToFill" id="3se-qz-xqx" customClass="SKView">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AO5-6w-z1W">
+                                <rect key="frame" x="528" y="0.0" width="72" height="35"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="AO5-6w-z1W" secondAttribute="height" multiplier="72:35" id="X6F-Lu-LVM"/>
+                                    <constraint firstAttribute="width" secondItem="AO5-6w-z1W" secondAttribute="height" multiplier="72:35" id="sMu-yY-GId"/>
+                                </constraints>
+                                <state key="normal" image="btn-pause.png">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="X6F-Lu-LVM"/>
+                                    </mask>
+                                </variation>
+                                <connections>
+                                    <action selector="showInGameMenu:" destination="BV1-FR-VrT" eventType="touchUpInside" id="LzV-BK-Tm3"/>
+                                </connections>
+                            </button>
+                        </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="height" secondItem="AO5-6w-z1W" secondAttribute="height" id="ANG-Su-xpD"/>
+                            <constraint firstAttribute="width" secondItem="AO5-6w-z1W" secondAttribute="width" id="Ko8-eC-AQN"/>
+                            <constraint firstItem="AO5-6w-z1W" firstAttribute="width" secondItem="3se-qz-xqx" secondAttribute="width" multiplier="0.12" id="R1Q-nL-tlh"/>
+                            <constraint firstAttribute="width" secondItem="AO5-6w-z1W" secondAttribute="height" multiplier="120:7" id="S5o-dG-qxr"/>
+                            <constraint firstAttribute="width" secondItem="AO5-6w-z1W" secondAttribute="height" multiplier="120:7" id="Szk-fM-rxL"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="AO5-6w-z1W" secondAttribute="trailing" constant="-16" id="Wix-EY-0ue"/>
+                            <constraint firstItem="AO5-6w-z1W" firstAttribute="top" secondItem="3se-qz-xqx" secondAttribute="topMargin" id="gg3-vu-ljo"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="AO5-6w-z1W" secondAttribute="trailing" constant="-16" id="jc3-61-ZZS"/>
+                            <constraint firstItem="AO5-6w-z1W" firstAttribute="top" secondItem="3se-qz-xqx" secondAttribute="topMargin" id="qUs-Io-TZu"/>
+                        </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="ANG-Su-xpD"/>
+                                <exclude reference="Ko8-eC-AQN"/>
+                                <exclude reference="S5o-dG-qxr"/>
+                                <exclude reference="Szk-fM-rxL"/>
+                                <exclude reference="gg3-vu-ljo"/>
+                                <exclude reference="jc3-61-ZZS"/>
+                            </mask>
+                        </variation>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SZV-WD-TEh" sceneMemberID="firstResponder"/>
@@ -221,5 +262,6 @@
         <image name="btn-easy.png" width="602" height="110"/>
         <image name="btn-hard.png" width="602" height="110"/>
         <image name="btn-medium.png" width="602" height="110"/>
+        <image name="btn-pause.png" width="124" height="71"/>
     </resources>
 </document>
