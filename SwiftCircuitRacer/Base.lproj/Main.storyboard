@@ -2,6 +2,8 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6245" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="JZ7-Gz-T2Q">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
     <scenes>
         <!--Game View Controller-->
@@ -33,11 +35,45 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="bg-select-car.png" translatesAutoresizingMaskIntoConstraints="NO" id="Oxq-VS-boO">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" image="bg-select-car.png" translatesAutoresizingMaskIntoConstraints="NO" id="Oxq-VS-boO">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                             </imageView>
+                            <button opaque="NO" tag="1" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KLf-Mw-Vch">
+                                <rect key="frame" x="72" y="285" width="121" height="169"/>
+                                <state key="normal" image="btn-car1.png">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                            <button opaque="NO" tag="2" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="in4-mw-DS3">
+                                <rect key="frame" x="436" y="285" width="121" height="169"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="in4-mw-DS3" secondAttribute="height" multiplier="121:169" id="9BA-YZ-t8n"/>
+                                </constraints>
+                                <state key="normal" image="btn-car3.png">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                            <button opaque="NO" tag="1" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0Oq-ho-NUV">
+                                <rect key="frame" x="260" y="285" width="121" height="169"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="0Oq-ho-NUV" secondAttribute="height" multiplier="121:169" id="eTA-uK-gfr"/>
+                                </constraints>
+                                <state key="normal" image="btn-car2.png">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="Oxq-VS-boO" firstAttribute="height" secondItem="0Oq-ho-NUV" secondAttribute="height" multiplier="2" id="4cK-tT-ZLh"/>
+                            <constraint firstItem="0Oq-ho-NUV" firstAttribute="top" secondItem="KLf-Mw-Vch" secondAttribute="top" id="IVb-9K-AxA"/>
+                            <constraint firstItem="Oxq-VS-boO" firstAttribute="centerY" secondItem="0Oq-ho-NUV" secondAttribute="centerY" multiplier="0.8" id="P4R-5R-b6T"/>
+                            <constraint firstItem="0Oq-ho-NUV" firstAttribute="top" secondItem="in4-mw-DS3" secondAttribute="top" id="PxP-6v-Rhl"/>
+                            <constraint firstItem="KLf-Mw-Vch" firstAttribute="centerX" secondItem="Oxq-VS-boO" secondAttribute="centerX" multiplier="0.45" id="SFk-iD-oxl"/>
+                            <constraint firstItem="in4-mw-DS3" firstAttribute="centerX" secondItem="Oxq-VS-boO" secondAttribute="centerX" multiplier="1.55" id="THl-jK-N0G"/>
+                            <constraint firstItem="0Oq-ho-NUV" firstAttribute="height" secondItem="KLf-Mw-Vch" secondAttribute="height" id="dZj-6v-Enm"/>
+                            <constraint firstItem="0Oq-ho-NUV" firstAttribute="height" secondItem="in4-mw-DS3" secondAttribute="height" id="tIZ-gO-qaO"/>
+                        </constraints>
                     </view>
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                 </viewController>
@@ -48,5 +84,8 @@
     </scenes>
     <resources>
         <image name="bg-select-car.png" width="2048" height="1536"/>
+        <image name="btn-car1.png" width="242" height="339"/>
+        <image name="btn-car2.png" width="242" height="339"/>
+        <image name="btn-car3.png" width="242" height="339"/>
     </resources>
 </document>
