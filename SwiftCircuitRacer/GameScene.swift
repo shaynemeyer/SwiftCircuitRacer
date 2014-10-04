@@ -35,6 +35,9 @@ class GameScene: SKScene, AnalogControlPositionChange {
     
     var previousTimeInterval: CFTimeInterval = 0
     
+    typealias GameOverBlock = (didWin: Bool) -> Void
+    var gameOverBlock: GameOverBlock?
+    
     override func didMoveToView(view: SKView) {
         initializeGame()
     }
@@ -159,6 +162,14 @@ class GameScene: SKScene, AnalogControlPositionChange {
                 numberOfLaps -= 1
                 laps.text = "Laps: \(numberOfLaps)"
                 runAction(lapSoundAction)
+            }
+        }
+        
+        if timeInSeconds < 0 || numberOfLaps == 0 {
+            paused = true
+            
+            if let block = gameOverBlock {
+                block(didWin: numberOfLaps == 0)
             }
         }
     }

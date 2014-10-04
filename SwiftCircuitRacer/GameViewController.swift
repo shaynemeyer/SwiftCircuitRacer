@@ -29,6 +29,13 @@ class GameViewController: UIViewController {
 
     var analogControl: AnalogControl!
     
+    func gameOverWithWin(didWin: Bool) {
+        let alert = UIAlertController(title: didWin ? "You won!" : "You lost",
+            message: "Game Over",
+            preferredStyle: .Alert)
+        presentViewController(alert, animated: true, completion: nil)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -62,6 +69,10 @@ class GameViewController: UIViewController {
             analogControl.delegate = scene
             
             view.addSubview(analogControl)
+            
+            scene.gameOverBlock = {(didWin) in
+                self.gameOverWithWin(didWin)
+            }
         }
     }
 
