@@ -31,6 +31,8 @@ class GameScene: SKScene, AnalogControlPositionChange {
     var trackCenter = CGPoint.zeroPoint
     var nextProgressAngle = M_PI
     
+    var boxSoundAction: SKAction!, hornSoundAction: SKAction!, lapSoundAction: SKAction!, nitroSoundAction: SKAction!
+    
     override func didMoveToView(view: SKView) {
         initializeGame()
     }
@@ -46,6 +48,11 @@ class GameScene: SKScene, AnalogControlPositionChange {
         maxSpeed = 500 * (2 + carType.toRaw())
         
         trackCenter = childNodeWithName("track")!.position
+        
+        boxSoundAction = SKAction.playSoundFileNamed("box.wav", waitForCompletion: false)
+        hornSoundAction = SKAction.playSoundFileNamed("horn.wav", waitForCompletion: false)
+        lapSoundAction = SKAction.playSoundFileNamed("lap.wav", waitForCompletion: false)
+        nitroSoundAction = SKAction.playSoundFileNamed("nitro.wav", waitForCompletion: false)
     }
     
     func loadLevel() {
@@ -132,6 +139,7 @@ class GameScene: SKScene, AnalogControlPositionChange {
                 // lap completed!
                 numberOfLaps -= 1
                 laps.text = "Laps: \(numberOfLaps)"
+                runAction(lapSoundAction)
             }
         }
     }
