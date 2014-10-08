@@ -79,6 +79,7 @@
 		ED94EE1819DD79EC000C44CF /* SKTEffects.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED94EE0C19DD79EC000C44CF /* SKTEffects.swift */; };
 		ED94EE1919DD79EC000C44CF /* SKTTimingFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED94EE0D19DD79EC000C44CF /* SKTTimingFunctions.swift */; };
 		ED94EE1A19DD79EC000C44CF /* Vector3.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED94EE0E19DD79EC000C44CF /* Vector3.swift */; };
+		EDAA968C19E56B240014EDF2 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EDAA968B19E56B240014EDF2 /* CoreMotion.framework */; };
 		EDAB159719DE18CF00CE9143 /* AnalogControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDAB159619DE18CF00CE9143 /* AnalogControl.swift */; };
 /* End PBXBuildFile section */
 
@@ -169,6 +170,7 @@
 		ED94EE0C19DD79EC000C44CF /* SKTEffects.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SKTEffects.swift; sourceTree = "<group>"; };
 		ED94EE0D19DD79EC000C44CF /* SKTTimingFunctions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SKTTimingFunctions.swift; sourceTree = "<group>"; };
 		ED94EE0E19DD79EC000C44CF /* Vector3.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Vector3.swift; sourceTree = "<group>"; };
+		EDAA968B19E56B240014EDF2 /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
 		EDAB159619DE18CF00CE9143 /* AnalogControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnalogControl.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -177,6 +179,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EDAA968C19E56B240014EDF2 /* CoreMotion.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -193,6 +196,7 @@
 		ED94ED6219DD77AD000C44CF = {
 			isa = PBXGroup;
 			children = (
+				EDAA968B19E56B240014EDF2 /* CoreMotion.framework */,
 				ED94ED6D19DD77AE000C44CF /* SwiftCircuitRacer */,
 				ED94ED8719DD77AE000C44CF /* SwiftCircuitRacerTests */,
 				ED94ED6C19DD77AE000C44CF /* Products */,

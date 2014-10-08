@@ -7,6 +7,7 @@
 //
 
 import SpriteKit
+import CoreMotion
 
 enum CarType: Int {
     case Yellow, Blue, Red
@@ -37,6 +38,8 @@ class GameScene: SKScene, AnalogControlPositionChange {
     
     typealias GameOverBlock = (didWin: Bool) -> Void
     var gameOverBlock: GameOverBlock?
+    
+    var motionManager: CMMotionManager!
     
     override func didMoveToView(view: SKView) {
         initializeGame()
@@ -171,6 +174,10 @@ class GameScene: SKScene, AnalogControlPositionChange {
             if let block = gameOverBlock {
                 block(didWin: numberOfLaps == 0)
             }
+        }
+        
+        if motionManager.accelerometerData != nil {
+            println("accelerometer [\(motionManager.accelerometerData.acceleration.x), \(motionManager.accelerometerData.acceleration.y),               \(motionManager.accelerometerData.acceleration.z)]")
         }
     }
 }

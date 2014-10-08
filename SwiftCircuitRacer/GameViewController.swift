@@ -89,6 +89,7 @@ class GameViewController: UIViewController {
             
             motionManager.accelerometerUpdateInterval = 0.05
             motionManager.startAccelerometerUpdates()
+            scene.motionManager = motionManager
         }
     }
     
