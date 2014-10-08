@@ -8,6 +8,7 @@
 
 import UIKit
 import SpriteKit
+import CoreMotion
 
 extension SKNode {
     class func unarchiveFromFile(file : NSString) -> SKNode? {
@@ -31,6 +32,8 @@ class GameViewController: UIViewController {
     
     var carType: CarType!
     var levelType: LevelType!
+    
+    let motionManager: CMMotionManager = CMMotionManager()
     
     func gameOverWithWin(didWin: Bool) {
         let alert = UIAlertController(title: didWin ? "You won!" : "You lost",
@@ -83,7 +86,14 @@ class GameViewController: UIViewController {
             scene.gameOverBlock = {(didWin) in
                 self.gameOverWithWin(didWin)
             }
+            
+            motionManager.accelerometerUpdateInterval = 0.05
+            motionManager.startAccelerometerUpdates()
         }
+    }
+    
+    deinit {
+        motionManager.stopAccelerometerUpdates()
     }
 
     override func shouldAutorotate() -> Bool {
