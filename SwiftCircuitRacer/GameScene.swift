@@ -175,9 +175,27 @@ class GameScene: SKScene, AnalogControlPositionChange {
                 block(didWin: numberOfLaps == 0)
             }
         }
+//        
+//        if motionManager.accelerometerData != nil {
+//            println("accelerometer [\(motionManager.accelerometerData.acceleration.x), \(motionManager.accelerometerData.acceleration.y),               \(motionManager.accelerometerData.acceleration.z)]")
+//        }
         
-        if motionManager.accelerometerData != nil {
-            println("accelerometer [\(motionManager.accelerometerData.acceleration.x), \(motionManager.accelerometerData.acceleration.y),               \(motionManager.accelerometerData.acceleration.z)]")
+        moveCarFromAcceleration()
+    }
+    
+    // MARK: Accelerometer Methods
+    
+    func moveCarFromAcceleration() {
+        var accel2D = CGPoint.zeroPoint
+        
+        if motionManager.accelerometerData == nil {
+            println("no acceleration data yet")
+            return
         }
+        
+        var raw = Vector3 (x: CGFloat(motionManager.accelerometerData.acceleration.x),
+            y: CGFloat(motionManager.accelerometerData.acceleration.y
+            ), z: CGFloat(motionManager.accelerometerData.acceleration.z))
     }
 }
+
