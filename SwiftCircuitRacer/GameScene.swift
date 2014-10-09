@@ -48,6 +48,9 @@ class GameScene: SKScene, AnalogControlPositionChange {
     
     let steerDeadZone = CGFloat(0.15)
     
+    let blend = CGFloat(0.2)
+    var lastVector = Vector3(x: 0, y: 0, z: 0)
+    
     override func didMoveToView(view: SKView) {
         initializeGame()
     }
@@ -204,6 +207,8 @@ class GameScene: SKScene, AnalogControlPositionChange {
             y: CGFloat(motionManager.accelerometerData.acceleration.y
             ), z: CGFloat(motionManager.accelerometerData.acceleration.z))
         
+        raw = lowPassWithVector(raw)
+        
         accel2D.x = Vector3.dotProduct(raw, right: az)
         accel2D.y = Vector3.dotProduct(raw, right: ax)
         accel2D.normalize()
@@ -221,6 +226,15 @@ class GameScene: SKScene, AnalogControlPositionChange {
         car.physicsBody!.velocity = CGVector(accel2D.x * CGFloat(maxAccelerationPerSecond),
             accel2D.y * CGFloat(maxAccelerationPerSecond))
         
+    }
+    
+    func lowPassWithVector(var vector: Vector3) -> Vector3 {
+        vector.x = vector.x * blend + lastVector.x * (1.0 - blend)
+        vector.y = vector.y * blend + lastVector.y * (1.0 - blend)
+        vector.z = vector.z * blend + lastVector.z * (1.0 - blend)
+        
+        lastVector = vector
+        return vector
     }
 }
 
