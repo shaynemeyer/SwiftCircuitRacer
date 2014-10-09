@@ -226,6 +226,29 @@ class GameScene: SKScene, AnalogControlPositionChange {
         car.physicsBody!.velocity = CGVector(accel2D.x * CGFloat(maxAccelerationPerSecond),
             accel2D.y * CGFloat(maxAccelerationPerSecond))
         
+        // if the car is in the deadzone, don't rotate.
+        if accel2D.x != 0 || accel2D.y != 0 {
+            // get the angle of acceleration vector
+            let orientationFromVelocity = CGPoint(x: car.physicsBody!.velocity.dx, y: car.physicsBody!.velocity.dy).angle
+            
+            var angleDelta = CGFloat(0.0)
+            
+            // if the car needs to rotate more than 175 degrees to 185 degrees, that means the value of zRotation need to change from 3.05 radians to -3.05 radians.
+            if abs(orientationFromVelocity - car.zRotation) > 1 {
+                // prevent wild rotation
+                angleDelta = orientationFromVelocity - car.zRotation
+            } else {
+                // blend rotation
+                let blendFactor = CGFloat(0.25)
+                angleDelta = (orientationFromVelocity - car.zRotation) * blendFactor
+                
+                angleDelta = shortestAngleBetween(car.zRotation, car.zRotation + angleDelta)
+            }
+            
+            // adjust the current rotation by angleDelta 
+            car.zRotation += angleDelta
+        }
+        
     }
     
     func lowPassWithVector(var vector: Vector3) -> Vector3 {
