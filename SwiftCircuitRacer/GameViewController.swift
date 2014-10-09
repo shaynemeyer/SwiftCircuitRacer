@@ -71,17 +71,17 @@ class GameViewController: UIViewController {
             
             skView.showsPhysics = true
             
-            let padSide: CGFloat = view.frame.size.height / 2.5
-            let padPadding: CGFloat = view.frame.size.height / 32
-            
-            analogControl = AnalogControl(frame: CGRectMake(padPadding,
-                skView.frame.size.height - padPadding - padSide,
-                padSide,
-                padSide))
-            
-            analogControl.delegate = scene
-            
-            view.addSubview(analogControl)
+//            let padSide: CGFloat = view.frame.size.height / 2.5
+//            let padPadding: CGFloat = view.frame.size.height / 32
+//            
+//            analogControl = AnalogControl(frame: CGRectMake(padPadding,
+//                skView.frame.size.height - padPadding - padSide,
+//                padSide,
+//                padSide))
+//            
+//            analogControl.delegate = scene
+//            
+//            view.addSubview(analogControl)
             
             scene.gameOverBlock = {(didWin) in
                 self.gameOverWithWin(didWin)
