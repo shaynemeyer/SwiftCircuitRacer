@@ -41,6 +41,13 @@ class GameScene: SKScene, AnalogControlPositionChange {
     
     var motionManager: CMMotionManager!
     
+    let ay = Vector3(x: 0.63, y: 0.0, z: -0.92)
+    let az = Vector3(x: 0.0, y: 1.0, z: 0.0)
+    let ax = Vector3.crossProduct(Vector3(x: 0.0, y: 1.0, z: 0.0),
+        right: Vector3(x: 0.63, y: 0.0, z: -0.92)).normalized()
+    
+    let steerDeadZone = CGFloat(0.15)
+    
     override func didMoveToView(view: SKView) {
         initializeGame()
     }
@@ -196,6 +203,24 @@ class GameScene: SKScene, AnalogControlPositionChange {
         var raw = Vector3 (x: CGFloat(motionManager.accelerometerData.acceleration.x),
             y: CGFloat(motionManager.accelerometerData.acceleration.y
             ), z: CGFloat(motionManager.accelerometerData.acceleration.z))
+        
+        accel2D.x = Vector3.dotProduct(raw, right: az)
+        accel2D.y = Vector3.dotProduct(raw, right: ax)
+        accel2D.normalize()
+        
+        if abs(accel2D.x) < steerDeadZone {
+            accel2D.x = 0
+        }
+        
+        if abs(accel2D.y) < steerDeadZone {
+            accel2D.y = 0
+        }
+        
+        let maxAccelerationPerSecond = maxSpeed
+        let car = childNodeWithName("car") as SKSpriteNode
+        car.physicsBody!.velocity = CGVector(accel2D.x * CGFloat(maxAccelerationPerSecond),
+            accel2D.y * CGFloat(maxAccelerationPerSecond))
+        
     }
 }
 
