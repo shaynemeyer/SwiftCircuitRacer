@@ -8,6 +8,7 @@
 
 import SpriteKit
 import CoreMotion
+import GameKit
 
 enum CarType: Int {
     case Yellow, Blue, Red
@@ -17,7 +18,7 @@ enum LevelType: Int {
     case Easy, Medium, Hard
 }
 
-class GameScene: SKScene, AnalogControlPositionChange {
+class GameScene: SKScene, AnalogControlPositionChange, SKPhysicsContactDelegate {
     
     var carType: CarType!
     var levelType: LevelType!
@@ -51,6 +52,13 @@ class GameScene: SKScene, AnalogControlPositionChange {
     let blend = CGFloat(0.2)
     var lastVector = Vector3(x: 0, y: 0, z: 0)
     
+    var noOfCollisionsWithBoxes = 0
+    
+    struct PhysicsCategories {
+        static let CarCategoryMask: UInt32 = 1
+        static let BoxCategoryMask: UInt32 = 2
+    }
+    
     override func didMoveToView(view: SKView) {
         initializeGame()
     }
@@ -71,6 +79,8 @@ class GameScene: SKScene, AnalogControlPositionChange {
         hornSoundAction = SKAction.playSoundFileNamed("horn.wav", waitForCompletion: false)
         lapSoundAction = SKAction.playSoundFileNamed("lap.wav", waitForCompletion: false)
         nitroSoundAction = SKAction.playSoundFileNamed("nitro.wav", waitForCompletion: false)
+        
+        physicsWorld.contactDelegate = self
     }
     
     func loadLevel() {
@@ -112,6 +122,11 @@ class GameScene: SKScene, AnalogControlPositionChange {
     func loadCarTexture() {
         let car = self.childNodeWithName("car") as SKSpriteNode
         car.texture = SKTexture(imageNamed: "car_\(carType.toRaw() + 1)")
+        
+        /**
+            Defines what logical 'categories' of bodies this body generates intersection notifications with.
+        */
+        car.physicsBody?.contactTestBitMask = PhysicsCategories.BoxCategoryMask
     }
     
     func loadObstacles() {
@@ -182,6 +197,7 @@ class GameScene: SKScene, AnalogControlPositionChange {
             paused = true
             
             if let block = gameOverBlock {
+                reportAchievementsForGameState(numberOfLaps == 0)
                 block(didWin: numberOfLaps == 0)
             }
         }
@@ -259,5 +275,33 @@ class GameScene: SKScene, AnalogControlPositionChange {
         lastVector = vector
         return vector
     }
+    
+    // MARK: Collision Detection Methods
+    
+    func didBeginContact(contact: SKPhysicsContact) {
+        if contact.bodyA.categoryBitMask != UInt32.max && contact.bodyB.categoryBitMask != UInt32.max && (contact.bodyA.categoryBitMask + contact.bodyB.categoryBitMask == PhysicsCategories.CarCategoryMask + PhysicsCategories.BoxCategoryMask) {
+            noOfCollisionsWithBoxes += 1
+            runAction(boxSoundAction)
+        }
+    }
+    
+    // MARK: GameCenter Methods
+    
+    func reportAchievementsForGameState(hasWon: Bool) {
+        // 1
+        var achievements = [GKAchievement]()
+        
+        // 2
+        achievements.append(AchievementsHelper.collisionAchievement(noOfCollisionsWithBoxes))
+        
+        // 3
+        if hasWon {
+            achievements.append(AchievementsHelper.achievementForLevel(levelType))
+        }
+        
+        // 4
+        GameKitHelper.sharedInstance.reportAchievements(achievements)
+    }
+    
 }
 
