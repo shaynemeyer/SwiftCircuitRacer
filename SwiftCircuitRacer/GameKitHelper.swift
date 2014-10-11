@@ -12,7 +12,7 @@ import Foundation
 let singleton = GameKitHelper()
 let PresentAuthenticationViewController = "PresentAuthenticationViewController"
 
-class GameKitHelper: NSObject {
+class GameKitHelper: NSObject, GKGameCenterControllerDelegate {
     var authenticationViewController: UIViewController?
     var lastError:NSError?
     var gameCenterEnabled: Bool
@@ -56,5 +56,29 @@ class GameKitHelper: NSObject {
         GKAchievement.reportAchievements(achievements) {(error) in
             self.lastError = error
         }
+    }
+    
+    // MARK: GameCenter Methods
+    
+    func showGKGameCenterViewController(viewController: UIViewController!) {
+        if !gameCenterEnabled {
+            println("Local player is not authenticated")
+            return
+        }
+        // initialize
+        let gameCenterViewController = GKGameCenterViewController()
+        
+        // set the delegate
+        gameCenterViewController.gameCenterDelegate = self
+        
+        // set default view state to Achievements
+        gameCenterViewController.viewState = .Achievements
+        
+        // present controller
+        viewController.presentViewController(gameCenterViewController, animated: true, completion: nil)
+    }
+    
+    func gameCenterViewControllerDidFinish(gameCenterViewController: GKGameCenterViewController!) {
+        gameCenterViewController.dismissViewControllerAnimated(true, completion: nil)
     }
 }
