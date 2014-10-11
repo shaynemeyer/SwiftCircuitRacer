@@ -18,6 +18,8 @@ enum LevelType: Int {
     case Easy, Medium, Hard
 }
 
+var numberOfPlays: Int = 0
+
 class GameScene: SKScene, AnalogControlPositionChange, SKPhysicsContactDelegate {
     
     var carType: CarType!
@@ -298,6 +300,10 @@ class GameScene: SKScene, AnalogControlPositionChange, SKPhysicsContactDelegate 
         if hasWon {
             achievements.append(AchievementsHelper.achievementForLevel(levelType))
         }
+        
+        // Check number of plays
+        numberOfPlays += 1
+        achievements.append(AchievementsHelper.racingAddictAchievement(numberOfPlays))
         
         // 4
         GameKitHelper.sharedInstance.reportAchievements(achievements)

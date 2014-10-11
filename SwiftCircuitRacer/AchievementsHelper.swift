@@ -12,10 +12,13 @@ import GameKit
 class AchievementsHelper {
     struct Constants {
         static let MaxCollisions = 20
+        static let MaxPlays = 10
         static let DestructionHeroAchievementId = "com.maynesoft.swiftcircuitracer.destructionhero"
         static let AmateurAchievementId = "com.maynesoft.swiftcircuitracer.amateurracer"
         static let IntermediateAchievementId = "com.maynesoft.swiftcircuitracer.intermediateracer"
         static let ProfessionalAchievementId = "com.maynesoft.swiftcircuitracer.professionalracer"
+        static let RacingAddictAchievementId = "com.maynesoft.swiftcircuitracer.racingaddict"
+        
     }
     
     class func collisionAchievement(noOfCollisions: Int) -> GKAchievement {
@@ -45,5 +48,18 @@ class AchievementsHelper {
         levelAchievment.percentComplete = 100
         levelAchievment.showsCompletionBanner = true
         return levelAchievment
+    }
+    
+    class func racingAddictAchievement(noOfPlays: Int) -> GKAchievement {
+        //1
+        let percent = (noOfPlays/Constants.MaxPlays) * 100
+        
+        //2
+        let collisionAchievement = GKAchievement(identifier: Constants.RacingAddictAchievementId)
+        
+        //3
+        collisionAchievement.percentComplete = Double(percent)
+        collisionAchievement.showsCompletionBanner = true
+        return collisionAchievement
     }
 }
