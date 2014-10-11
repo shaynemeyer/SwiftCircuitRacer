@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		ED19F71319E6BE160014ACA2 /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED19F71219E6BE160014ACA2 /* GameKit.framework */; };
+		ED32ED6D19E95A6B008BFA8E /* GameKitHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED32ED6C19E95A6B008BFA8E /* GameKitHelper.swift */; };
 		ED7A1CCF19E05F0700B5ABEA /* SelectCarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED7A1CCE19E05F0700B5ABEA /* SelectCarViewController.swift */; };
 		ED7A1CD119E05F2700B5ABEA /* SelectLevelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED7A1CD019E05F2700B5ABEA /* SelectLevelViewController.swift */; };
 		ED94ED7119DD77AE000C44CF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED94ED7019DD77AE000C44CF /* AppDelegate.swift */; };
@@ -96,6 +97,7 @@
 
 /* Begin PBXFileReference section */
 		ED19F71219E6BE160014ACA2 /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
+		ED32ED6C19E95A6B008BFA8E /* GameKitHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameKitHelper.swift; sourceTree = "<group>"; };
 		ED7A1CCE19E05F0700B5ABEA /* SelectCarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectCarViewController.swift; sourceTree = "<group>"; };
 		ED7A1CD019E05F2700B5ABEA /* SelectLevelViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectLevelViewController.swift; sourceTree = "<group>"; };
 		ED94ED6B19DD77AE000C44CF /* SwiftCircuitRacer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwiftCircuitRacer.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -196,6 +198,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		ED32ED6B19E95A29008BFA8E /* GameKit */ = {
+			isa = PBXGroup;
+			children = (
+				ED32ED6C19E95A6B008BFA8E /* GameKitHelper.swift */,
+			);
+			name = GameKit;
+			sourceTree = "<group>";
+		};
 		ED94ED6219DD77AD000C44CF = {
 			isa = PBXGroup;
 			children = (
@@ -219,6 +229,7 @@
 		ED94ED6D19DD77AE000C44CF /* SwiftCircuitRacer */ = {
 			isa = PBXGroup;
 			children = (
+				ED32ED6B19E95A29008BFA8E /* GameKit */,
 				ED94ED7019DD77AE000C44CF /* AppDelegate.swift */,
 				EDAB159619DE18CF00CE9143 /* AnalogControl.swift */,
 				ED94ED7219DD77AE000C44CF /* GameScene.sks */,
@@ -584,6 +595,7 @@
 				ED94EE1A19DD79EC000C44CF /* Vector3.swift in Sources */,
 				ED7A1CCF19E05F0700B5ABEA /* SelectCarViewController.swift in Sources */,
 				ED94ED7119DD77AE000C44CF /* AppDelegate.swift in Sources */,
+				ED32ED6D19E95A6B008BFA8E /* GameKitHelper.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
