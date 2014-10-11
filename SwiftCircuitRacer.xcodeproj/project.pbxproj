@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		ED19F71319E6BE160014ACA2 /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED19F71219E6BE160014ACA2 /* GameKit.framework */; };
 		ED32ED6D19E95A6B008BFA8E /* GameKitHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED32ED6C19E95A6B008BFA8E /* GameKitHelper.swift */; };
+		ED32ED6F19E95D6C008BFA8E /* CircuitRacerNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED32ED6E19E95D6C008BFA8E /* CircuitRacerNavigationController.swift */; };
 		ED7A1CCF19E05F0700B5ABEA /* SelectCarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED7A1CCE19E05F0700B5ABEA /* SelectCarViewController.swift */; };
 		ED7A1CD119E05F2700B5ABEA /* SelectLevelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED7A1CD019E05F2700B5ABEA /* SelectLevelViewController.swift */; };
 		ED94ED7119DD77AE000C44CF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED94ED7019DD77AE000C44CF /* AppDelegate.swift */; };
@@ -98,6 +99,7 @@
 /* Begin PBXFileReference section */
 		ED19F71219E6BE160014ACA2 /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
 		ED32ED6C19E95A6B008BFA8E /* GameKitHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameKitHelper.swift; sourceTree = "<group>"; };
+		ED32ED6E19E95D6C008BFA8E /* CircuitRacerNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircuitRacerNavigationController.swift; sourceTree = "<group>"; };
 		ED7A1CCE19E05F0700B5ABEA /* SelectCarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectCarViewController.swift; sourceTree = "<group>"; };
 		ED7A1CD019E05F2700B5ABEA /* SelectLevelViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectLevelViewController.swift; sourceTree = "<group>"; };
 		ED94ED6B19DD77AE000C44CF /* SwiftCircuitRacer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwiftCircuitRacer.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -232,6 +234,7 @@
 				ED32ED6B19E95A29008BFA8E /* GameKit */,
 				ED94ED7019DD77AE000C44CF /* AppDelegate.swift */,
 				EDAB159619DE18CF00CE9143 /* AnalogControl.swift */,
+				ED32ED6E19E95D6C008BFA8E /* CircuitRacerNavigationController.swift */,
 				ED94ED7219DD77AE000C44CF /* GameScene.sks */,
 				ED94ED7419DD77AE000C44CF /* GameScene.swift */,
 				ED94ED7619DD77AE000C44CF /* GameViewController.swift */,
@@ -582,6 +585,7 @@
 				ED94EE1019DD79EC000C44CF /* CGPoint+Extensions.swift in Sources */,
 				ED94EE1919DD79EC000C44CF /* SKTTimingFunctions.swift in Sources */,
 				ED94EE1819DD79EC000C44CF /* SKTEffects.swift in Sources */,
+				ED32ED6F19E95D6C008BFA8E /* CircuitRacerNavigationController.swift in Sources */,
 				ED94EE1419DD79EC000C44CF /* SKAction+SpecialEffects.swift in Sources */,
 				ED94EE1119DD79EC000C44CF /* CGVector+Extensions.swift in Sources */,
 				ED94EE1319DD79EC000C44CF /* SKAction+Extensions.swift in Sources */,

@@ -232,10 +232,10 @@
             </objects>
             <point key="canvasLocation" x="1512" y="428"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--Circuit Racer Navigation Controller-->
         <scene sceneID="y1o-3K-L9R">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="2nD-vh-70q" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="2nD-vh-70q" customClass="CircuitRacerNavigationController" customModule="SwiftCircuitRacer" customModuleProvider="target" sceneMemberID="viewController">
                     <toolbarItems/>
                     <nil key="simulatedTopBarMetrics"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="1Dh-24-ht0">
