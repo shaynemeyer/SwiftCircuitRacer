@@ -11,6 +11,7 @@
 		ED32ED6D19E95A6B008BFA8E /* GameKitHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED32ED6C19E95A6B008BFA8E /* GameKitHelper.swift */; };
 		ED32ED6F19E95D6C008BFA8E /* CircuitRacerNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED32ED6E19E95D6C008BFA8E /* CircuitRacerNavigationController.swift */; };
 		ED50844219E961B6003901E7 /* AchievementsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED50844119E961B6003901E7 /* AchievementsHelper.swift */; };
+		ED50844419E96C17003901E7 /* HomeScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED50844319E96C17003901E7 /* HomeScreenViewController.swift */; };
 		ED7A1CCF19E05F0700B5ABEA /* SelectCarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED7A1CCE19E05F0700B5ABEA /* SelectCarViewController.swift */; };
 		ED7A1CD119E05F2700B5ABEA /* SelectLevelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED7A1CD019E05F2700B5ABEA /* SelectLevelViewController.swift */; };
 		ED94ED7119DD77AE000C44CF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED94ED7019DD77AE000C44CF /* AppDelegate.swift */; };
@@ -102,6 +103,7 @@
 		ED32ED6C19E95A6B008BFA8E /* GameKitHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameKitHelper.swift; sourceTree = "<group>"; };
 		ED32ED6E19E95D6C008BFA8E /* CircuitRacerNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircuitRacerNavigationController.swift; sourceTree = "<group>"; };
 		ED50844119E961B6003901E7 /* AchievementsHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AchievementsHelper.swift; sourceTree = "<group>"; };
+		ED50844319E96C17003901E7 /* HomeScreenViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeScreenViewController.swift; sourceTree = "<group>"; };
 		ED7A1CCE19E05F0700B5ABEA /* SelectCarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectCarViewController.swift; sourceTree = "<group>"; };
 		ED7A1CD019E05F2700B5ABEA /* SelectLevelViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectLevelViewController.swift; sourceTree = "<group>"; };
 		ED94ED6B19DD77AE000C44CF /* SwiftCircuitRacer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwiftCircuitRacer.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -241,6 +243,7 @@
 				ED94ED7219DD77AE000C44CF /* GameScene.sks */,
 				ED94ED7419DD77AE000C44CF /* GameScene.swift */,
 				ED94ED7619DD77AE000C44CF /* GameViewController.swift */,
+				ED50844319E96C17003901E7 /* HomeScreenViewController.swift */,
 				ED7A1CCE19E05F0700B5ABEA /* SelectCarViewController.swift */,
 				ED7A1CD019E05F2700B5ABEA /* SelectLevelViewController.swift */,
 				ED94ED7819DD77AE000C44CF /* Main.storyboard */,
@@ -588,6 +591,7 @@
 				ED94EE1019DD79EC000C44CF /* CGPoint+Extensions.swift in Sources */,
 				ED94EE1919DD79EC000C44CF /* SKTTimingFunctions.swift in Sources */,
 				ED94EE1819DD79EC000C44CF /* SKTEffects.swift in Sources */,
+				ED50844419E96C17003901E7 /* HomeScreenViewController.swift in Sources */,
 				ED32ED6F19E95D6C008BFA8E /* CircuitRacerNavigationController.swift in Sources */,
 				ED94EE1419DD79EC000C44CF /* SKAction+SpecialEffects.swift in Sources */,
 				ED94EE1119DD79EC000C44CF /* CGVector+Extensions.swift in Sources */,

@@ -66,6 +66,66 @@
             </objects>
             <point key="canvasLocation" x="700" y="428"/>
         </scene>
+        <!--Home Screen View Controller-->
+        <scene sceneID="FQr-3Z-DW7">
+            <objects>
+                <viewController storyboardIdentifier="HomeScreenViewController" id="w3l-n7-aev" customClass="HomeScreenViewController" customModule="SwiftCircuitRacer" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="nCF-QC-cc5"/>
+                        <viewControllerLayoutGuide type="bottom" id="zzm-nd-GM0"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="hmt-yC-vBn">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bg-main-menu.png" translatesAutoresizingMaskIntoConstraints="NO" id="wV4-rn-ugA">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="39P-WU-wtI">
+                                <rect key="frame" x="119" y="354" width="360" height="66"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="39P-WU-wtI" secondAttribute="height" multiplier="301:55" id="zH1-JX-s9L"/>
+                                </constraints>
+                                <state key="normal" image="btn-play.png">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="playGame:" destination="w3l-n7-aev" eventType="touchUpInside" id="t1I-0v-THp"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OtA-nF-KzO">
+                                <rect key="frame" x="119" y="492" width="360" height="66"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="OtA-nF-KzO" secondAttribute="height" multiplier="301:55" id="Mze-7s-CmL"/>
+                                </constraints>
+                                <state key="normal" image="btn-gamecenter.png">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="gameCenter:" destination="w3l-n7-aev" eventType="touchUpInside" id="Ylv-hZ-C98"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="39P-WU-wtI" firstAttribute="width" secondItem="wV4-rn-ugA" secondAttribute="width" multiplier="0.6" id="6D3-12-AL4"/>
+                            <constraint firstItem="wV4-rn-ugA" firstAttribute="top" secondItem="hmt-yC-vBn" secondAttribute="topMargin" id="6vx-a9-uaj"/>
+                            <constraint firstItem="39P-WU-wtI" firstAttribute="centerY" secondItem="wV4-rn-ugA" secondAttribute="centerY" multiplier="1.29" id="B3W-pK-dHt"/>
+                            <constraint firstItem="zzm-nd-GM0" firstAttribute="top" secondItem="wV4-rn-ugA" secondAttribute="bottom" id="VLA-cx-ObR"/>
+                            <constraint firstItem="OtA-nF-KzO" firstAttribute="width" secondItem="39P-WU-wtI" secondAttribute="width" id="Zdo-5J-IxX"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="wV4-rn-ugA" secondAttribute="trailing" constant="-16" id="e5a-7l-ybN"/>
+                            <constraint firstItem="OtA-nF-KzO" firstAttribute="centerX" secondItem="39P-WU-wtI" secondAttribute="centerX" id="n1u-Vb-Pcn"/>
+                            <constraint firstItem="wV4-rn-ugA" firstAttribute="leading" secondItem="hmt-yC-vBn" secondAttribute="leadingMargin" constant="-16" id="oLb-hm-GpX"/>
+                            <constraint firstItem="OtA-nF-KzO" firstAttribute="centerY" secondItem="wV4-rn-ugA" secondAttribute="centerY" multiplier="1.75" id="wA0-PZ-NKN"/>
+                            <constraint firstItem="39P-WU-wtI" firstAttribute="centerX" secondItem="wV4-rn-ugA" secondAttribute="centerX" constant="-1" id="wVn-8j-Kca"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="UPM-8j-thi"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="fEZ-aZ-b6B" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1512" y="-972"/>
+        </scene>
         <!--Select Car View Controller-->
         <scene sceneID="Mwx-kG-gvr">
             <objects>
@@ -244,15 +304,16 @@
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="JZ7-Gz-T2Q" kind="relationship" relationship="rootViewController" id="x9R-pa-3PK"/>
+                        <segue destination="w3l-n7-aev" kind="relationship" relationship="rootViewController" id="Hht-HB-z4l"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eZu-Wb-2gM" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="700" y="-296"/>
+            <point key="canvasLocation" x="738" y="-972"/>
         </scene>
     </scenes>
     <resources>
+        <image name="bg-main-menu.png" width="2048" height="1536"/>
         <image name="bg-select-car.png" width="2048" height="1536"/>
         <image name="bg-select-difficulty.png" width="2048" height="1536"/>
         <image name="btn-back.png" width="164" height="66"/>
@@ -260,8 +321,10 @@
         <image name="btn-car2.png" width="242" height="339"/>
         <image name="btn-car3.png" width="242" height="339"/>
         <image name="btn-easy.png" width="602" height="110"/>
+        <image name="btn-gamecenter.png" width="602" height="110"/>
         <image name="btn-hard.png" width="602" height="110"/>
         <image name="btn-medium.png" width="602" height="110"/>
         <image name="btn-pause.png" width="124" height="71"/>
+        <image name="btn-play.png" width="602" height="110"/>
     </resources>
 </document>
