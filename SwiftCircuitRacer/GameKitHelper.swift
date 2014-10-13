@@ -71,8 +71,8 @@ class GameKitHelper: NSObject, GKGameCenterControllerDelegate {
         // set the delegate
         gameCenterViewController.gameCenterDelegate = self
         
-        // set default view state to Achievements
-        gameCenterViewController.viewState = .Achievements
+        // set default view state to Leaderboards
+        gameCenterViewController.viewState = .Leaderboards
         
         // present controller
         viewController.presentViewController(gameCenterViewController, animated: true, completion: nil)
