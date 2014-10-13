@@ -81,4 +81,23 @@ class GameKitHelper: NSObject, GKGameCenterControllerDelegate {
     func gameCenterViewControllerDidFinish(gameCenterViewController: GKGameCenterViewController!) {
         gameCenterViewController.dismissViewControllerAnimated(true, completion: nil)
     }
+    
+    func reportScore(score: Int64, forLeaderboardId leaderBoardId: String) {
+        if !gameCenterEnabled {
+            println("Local player is not authenticated")
+            return
+        }
+        
+        // GameCenter expects scores to be a GKScore object.
+        let scoreReporter = GKScore(leaderboardIdentifier: leaderBoardId)
+        scoreReporter.value = score
+        scoreReporter.context = 0
+        
+        let scores = [scoreReporter]
+        
+        // This code calls the completion handler when Game Center is done processing the scores, and again, this method takes care of auto-sensing scores on network failures.
+        GKScore.reportScores(scores) { (error) in
+            self.lastError = error
+        }
+    }
 }

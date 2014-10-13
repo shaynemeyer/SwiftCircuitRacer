@@ -56,6 +56,18 @@ class GameScene: SKScene, AnalogControlPositionChange, SKPhysicsContactDelegate 
     
     var noOfCollisionsWithBoxes = 0
     
+    var maxTime = 0
+    let leaderBoardIDMap = [
+        "\(CarType.Yellow.toRaw())_\(LevelType.Easy.toRaw())" : "com.maynesoft.swiftcircuitracer.car1_level_easy_fastest_time",
+        "\(CarType.Yellow.toRaw())_\(LevelType.Medium.toRaw())" : "com.maynesoft.swiftcircuitracer.car1_level_medium_fastest_time",
+        "\(CarType.Yellow.toRaw())_\(LevelType.Hard.toRaw())" : "com.maynesoft.swiftcircuitracer.car1_level_hard_fastest_time",
+        "\(CarType.Blue.toRaw())_\(LevelType.Easy.toRaw())" : "com.maynesoft.swiftcircuitracer.car2_level_easy_fastest_time",
+        "\(CarType.Blue.toRaw())_\(LevelType.Medium.toRaw())" : "com.maynesoft.swiftcircuitracer.car2_level_medium_fastest_time",
+        "\(CarType.Blue.toRaw())_\(LevelType.Hard.toRaw())" : "com.maynesoft.swiftcircuitracer.car2_level_hard_fastest_time",
+        "\(CarType.Red.toRaw())_\(LevelType.Easy.toRaw())" : "com.maynesoft.swiftcircuitracer.car3_level_easy_fastest_time",
+        "\(CarType.Red.toRaw())_\(LevelType.Medium.toRaw())" : "com.maynesoft.swiftcircuitracer.car3_level_medium_fastest_time",
+        "\(CarType.Red.toRaw())_\(LevelType.Hard.toRaw())" : "com.maynesoft.swiftcircuitracer.car3_level_hard_fastest_time"]
+    
     struct PhysicsCategories {
         static let CarCategoryMask: UInt32 = 1
         static let BoxCategoryMask: UInt32 = 2
@@ -94,6 +106,8 @@ class GameScene: SKScene, AnalogControlPositionChange, SKPhysicsContactDelegate 
         
         timeInSeconds = levelData["time"] as Int
         numberOfLaps = levelData["laps"] as Int
+        
+        maxTime = timeInSeconds
     }
     
     func loadTrackTexture() {
@@ -200,6 +214,7 @@ class GameScene: SKScene, AnalogControlPositionChange, SKPhysicsContactDelegate 
             
             if let block = gameOverBlock {
                 reportAchievementsForGameState(numberOfLaps == 0)
+                reportScoreToGameCenter()
                 block(didWin: numberOfLaps == 0)
             }
         }
@@ -309,5 +324,12 @@ class GameScene: SKScene, AnalogControlPositionChange, SKPhysicsContactDelegate 
         GameKitHelper.sharedInstance.reportAchievements(achievements)
     }
     
+    func reportScoreToGameCenter() {
+        let timeToComplete = maxTime - timeInSeconds
+        
+        GameKitHelper.sharedInstance.reportScore(Int64(timeToComplete),
+            forLeaderboardId: leaderBoardIDMap["\(carType.toRaw())_\(levelType.toRaw())"]!)
+    }
 }
+
 
