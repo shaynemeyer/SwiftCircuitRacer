@@ -250,16 +250,16 @@
 				ED94ED7419DD77AE000C44CF /* GameScene.swift */,
 				ED94ED7619DD77AE000C44CF /* GameViewController.swift */,
 				ED50844319E96C17003901E7 /* HomeScreenViewController.swift */,
+				ED91F53119ECCC0000D816FB /* MultiplayerProtocol.swift */,
 				ED7A1CCE19E05F0700B5ABEA /* SelectCarViewController.swift */,
 				ED7A1CD019E05F2700B5ABEA /* SelectLevelViewController.swift */,
+				ED91F52F19ECCBC100D816FB /* Set.swift */,
 				ED94ED7819DD77AE000C44CF /* Main.storyboard */,
 				ED94ED7B19DD77AE000C44CF /* Images.xcassets */,
 				ED94ED7D19DD77AE000C44CF /* LaunchScreen.xib */,
 				ED94EE0219DD79EC000C44CF /* SKTUtils */,
 				ED94ED9419DD77E0000C44CF /* Resources */,
 				ED94ED6E19DD77AE000C44CF /* Supporting Files */,
-				ED91F52F19ECCBC100D816FB /* Set.swift */,
-				ED91F53119ECCC0000D816FB /* MultiplayerProtocol.swift */,
 			);
 			path = SwiftCircuitRacer;
 			sourceTree = "<group>";

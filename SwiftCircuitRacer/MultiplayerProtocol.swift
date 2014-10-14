@@ -17,9 +17,120 @@ class MultiplayerNetworking: NSObject, GameKitHelperDelegate {
     var delegate: MultiplayerProtocol?
     var noOfLaps: Int?
     
+    var ourRandomNumber: UInt32
+    var gameState: GameState
+    var isPlayer1: Bool
+    var receivedAllRandomNumbers: Bool
+    var orderOfPlayers: [RandomNumberDetails]
+    
+    enum GameState: Int {
+        case WaitingForMatch, WaitingForRandomNumber, WaitingForStart, Playing, Done
+    }
+    
+    enum MessageType: Int {
+        case RandomNumber, GameBegin, Move, LapComplete, GameOver
+    }
+    
+    struct Message {
+        let messageType: MessageType
+    }
+    
+    struct MessageRandomNumber {
+        let message: Message
+        let randomNumber: UInt32
+    }
+    
+    struct MessageGameBegin {
+        let message: Message
+    }
+    
+    struct MessageMove {
+        let message: Message
+        let dx: Float
+        let dy: Float
+        let rotate: Float
+    }
+    
+    struct MessageLapComplete {
+        let message: Message
+    }
+    
+    struct MessageGameOver {
+        let message: Message
+    }
+    
+    class RandomNumberDetails: NSObject {
+        let playerId: String
+        let randomNumber: UInt32
+        
+        init(playerId: String, randomNumber: UInt32) {
+            self.playerId = playerId
+            self.randomNumber = randomNumber
+            super.init()
+        }
+        
+        override func isEqual(object: AnyObject?) -> Bool {
+            let randomNumberDetails = object as? RandomNumberDetails
+            return randomNumberDetails?.playerId == self.playerId
+        }
+    }
+    
+    override init() {
+        ourRandomNumber = arc4random()
+        gameState = GameState.WaitingForMatch
+        isPlayer1 = false
+        receivedAllRandomNumbers = false
+        
+        orderOfPlayers = [RandomNumberDetails]()
+        super.init()
+    }
+    
     // MARK: GameKitHelperDelegate methods
     func matchStarted() {
         println("Match has started successfuly")
+        if receivedAllRandomNumbers {
+            gameState = GameState.WaitingForStart
+        } else {
+            gameState = GameState.WaitingForRandomNumber
+        }
+        sendRandomNumber()
+        tryStartGame()
+    }
+    
+    func sendRandomNumber() {
+        var message = MessageRandomNumber(message: Message(messageType: MessageType.RandomNumber), randomNumber: ourRandomNumber)
+        
+        let data = NSData(bytes: &message, length: sizeof(MessageRandomNumber))
+        sendData(data)
+    }
+    
+    func tryStartGame() {
+        if isPlayer1 && gameState == GameState.WaitingForStart {
+            gameState = GameState.Playing
+            sendBeginGame()
+        }
+    }
+    
+    func sendBeginGame() {
+        var message = MessageGameBegin(message: Message(messageType: MessageType.GameBegin))
+        
+        let data = NSData(bytes: &message, length: sizeof(MessageGameBegin))
+        sendData(data)
+    }
+    
+    func sendData(data: NSData) {
+        var sendDataError: NSError?
+        let gameKitHelper = GameKitHelper.sharedInstance
+        
+        if let multiplayerMatch = gameKitHelper.multiplayerMatch {
+            let success = multiplayerMatch.sendDataToAllPlayers(data, withDataMode: .Reliable, error: &sendDataError)
+            if !success {
+                if let error = sendDataError {
+                    println("Error:\(error.localizedDescription)")
+                    matchEnded()
+                }
+            }
+        }
     }
     
     func matchEnded() {
