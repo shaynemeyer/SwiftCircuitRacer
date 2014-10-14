@@ -133,11 +133,67 @@ class MultiplayerNetworking: NSObject, GameKitHelperDelegate {
         }
     }
     
+    func processReceivedRandomNumber(randomNumberDetails: RandomNumberDetails) {
+        
+    }
+    
+    func isLocalPLayerPlayer1() -> Bool {
+        return false
+    }
+    
     func matchEnded() {
         delegate?.matchEnded()
     }
     
     func matchReceivedData(match: GKMatch, data: NSData, fromPlayer player: String) {
+        // 1
+        var message = UnsafePointer<Message>(data.bytes).memory
         
+        if message.messageType == MessageType.RandomNumber {
+            let messageRandomNumber = UnsafePointer<MessageRandomNumber>(data.bytes).memory
+            
+            println("Received random number:\(messageRandomNumber.randomNumber)")
+            
+            var tie = false
+            if messageRandomNumber.randomNumber == ourRandomNumber {
+                // 2
+                println("Tie")
+                tie = true
+                
+                var idx: Int?
+                
+                for (index, randomNumberDetails) in
+                    enumerate(orderOfPlayers) {
+                        if randomNumberDetails.randomNumber == ourRandomNumber {
+                            idx = index
+                            break
+                        }
+                }
+                
+                if let validIndex = idx {
+                    ourRandomNumber = arc4random()
+                    orderOfPlayers.removeAtIndex(validIndex)
+                    orderOfPlayers.append(RandomNumberDetails(playerId: GKLocalPlayer.localPlayer().playerID, randomNumber: ourRandomNumber))
+
+                }
+                sendRandomNumber()
+            } else {
+                // 3
+                processReceivedRandomNumber(RandomNumberDetails(playerId: player, randomNumber: messageRandomNumber.randomNumber))
+            }
+            
+            // 4
+            if receivedAllRandomNumbers {
+                isPlayer1 = isLocalPLayerPlayer1()
+            }
+            
+            if !tie && receivedAllRandomNumbers {
+                // 5
+                if gameState == GameState.WaitingForRandomNumber {
+                    gameState = GameState.WaitingForStart
+                }
+                tryStartGame()
+            }
+        }
     }
 }
