@@ -61,6 +61,9 @@
                             </mask>
                         </variation>
                     </view>
+                    <connections>
+                        <outlet property="pauseButton" destination="AO5-6w-z1W" id="cS1-xG-q9h"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SZV-WD-TEh" sceneMemberID="firstResponder"/>
             </objects>
@@ -82,7 +85,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="39P-WU-wtI">
-                                <rect key="frame" x="119" y="354" width="360" height="66"/>
+                                <rect key="frame" x="150" y="318" width="300" height="54"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="39P-WU-wtI" secondAttribute="height" multiplier="301:55" id="zH1-JX-s9L"/>
                                 </constraints>
@@ -93,8 +96,20 @@
                                     <action selector="playGame:" destination="w3l-n7-aev" eventType="touchUpInside" id="t1I-0v-THp"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OtA-nF-KzO">
-                                <rect key="frame" x="119" y="492" width="360" height="66"/>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1nw-w9-MYj">
+                                <rect key="frame" x="120" y="501" width="360" height="66"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="1nw-w9-MYj" secondAttribute="height" multiplier="60:11" id="2Gp-Qx-iGV"/>
+                                </constraints>
+                                <state key="normal" image="btn-multiplayer.png">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="playMultiplayerGame:" destination="w3l-n7-aev" eventType="touchUpInside" id="lP1-mx-ZIe"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OtA-nF-KzO">
+                                <rect key="frame" x="120" y="409" width="360" height="66"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="OtA-nF-KzO" secondAttribute="height" multiplier="301:55" id="Mze-7s-CmL"/>
                                 </constraints>
@@ -108,16 +123,19 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="39P-WU-wtI" firstAttribute="width" secondItem="wV4-rn-ugA" secondAttribute="width" multiplier="0.6" id="6D3-12-AL4"/>
+                            <constraint firstItem="39P-WU-wtI" firstAttribute="width" secondItem="wV4-rn-ugA" secondAttribute="width" multiplier="0.5" id="6D3-12-AL4"/>
                             <constraint firstItem="wV4-rn-ugA" firstAttribute="top" secondItem="hmt-yC-vBn" secondAttribute="topMargin" id="6vx-a9-uaj"/>
-                            <constraint firstItem="39P-WU-wtI" firstAttribute="centerY" secondItem="wV4-rn-ugA" secondAttribute="centerY" multiplier="1.29" id="B3W-pK-dHt"/>
+                            <constraint firstItem="39P-WU-wtI" firstAttribute="centerY" secondItem="wV4-rn-ugA" secondAttribute="centerY" multiplier="1.15" id="B3W-pK-dHt"/>
+                            <constraint firstItem="OtA-nF-KzO" firstAttribute="centerX" secondItem="1nw-w9-MYj" secondAttribute="centerX" id="EUB-NG-mat"/>
                             <constraint firstItem="zzm-nd-GM0" firstAttribute="top" secondItem="wV4-rn-ugA" secondAttribute="bottom" id="VLA-cx-ObR"/>
                             <constraint firstItem="OtA-nF-KzO" firstAttribute="width" secondItem="39P-WU-wtI" secondAttribute="width" id="Zdo-5J-IxX"/>
                             <constraint firstAttribute="trailingMargin" secondItem="wV4-rn-ugA" secondAttribute="trailing" constant="-16" id="e5a-7l-ybN"/>
                             <constraint firstItem="OtA-nF-KzO" firstAttribute="centerX" secondItem="39P-WU-wtI" secondAttribute="centerX" id="n1u-Vb-Pcn"/>
                             <constraint firstItem="wV4-rn-ugA" firstAttribute="leading" secondItem="hmt-yC-vBn" secondAttribute="leadingMargin" constant="-16" id="oLb-hm-GpX"/>
-                            <constraint firstItem="OtA-nF-KzO" firstAttribute="centerY" secondItem="wV4-rn-ugA" secondAttribute="centerY" multiplier="1.75" id="wA0-PZ-NKN"/>
-                            <constraint firstItem="39P-WU-wtI" firstAttribute="centerX" secondItem="wV4-rn-ugA" secondAttribute="centerX" constant="-1" id="wVn-8j-Kca"/>
+                            <constraint firstItem="OtA-nF-KzO" firstAttribute="width" secondItem="1nw-w9-MYj" secondAttribute="width" id="vDj-Pz-qWf"/>
+                            <constraint firstItem="OtA-nF-KzO" firstAttribute="centerY" secondItem="wV4-rn-ugA" secondAttribute="centerY" multiplier="1.5" id="wA0-PZ-NKN"/>
+                            <constraint firstItem="39P-WU-wtI" firstAttribute="centerX" secondItem="wV4-rn-ugA" secondAttribute="centerX" id="wVn-8j-Kca"/>
+                            <constraint firstItem="1nw-w9-MYj" firstAttribute="centerY" secondItem="wV4-rn-ugA" secondAttribute="centerY" multiplier="1.85" id="za1-sL-B3N"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="UPM-8j-thi"/>
@@ -324,6 +342,7 @@
         <image name="btn-gamecenter.png" width="602" height="110"/>
         <image name="btn-hard.png" width="602" height="110"/>
         <image name="btn-medium.png" width="602" height="110"/>
+        <image name="btn-multiplayer.png" width="602" height="110"/>
         <image name="btn-pause.png" width="124" height="71"/>
         <image name="btn-play.png" width="602" height="110"/>
     </resources>

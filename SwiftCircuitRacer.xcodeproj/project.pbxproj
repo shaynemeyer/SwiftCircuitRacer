@@ -14,6 +14,9 @@
 		ED50844419E96C17003901E7 /* HomeScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED50844319E96C17003901E7 /* HomeScreenViewController.swift */; };
 		ED7A1CCF19E05F0700B5ABEA /* SelectCarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED7A1CCE19E05F0700B5ABEA /* SelectCarViewController.swift */; };
 		ED7A1CD119E05F2700B5ABEA /* SelectLevelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED7A1CD019E05F2700B5ABEA /* SelectLevelViewController.swift */; };
+		ED91F52E19ECBC6400D816FB /* btn-multiplayer@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = ED91F52D19ECBC6400D816FB /* btn-multiplayer@2x.png */; };
+		ED91F53019ECCBC100D816FB /* Set.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED91F52F19ECCBC100D816FB /* Set.swift */; };
+		ED91F53219ECCC0000D816FB /* MultiplayerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED91F53119ECCC0000D816FB /* MultiplayerProtocol.swift */; };
 		ED94ED7119DD77AE000C44CF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED94ED7019DD77AE000C44CF /* AppDelegate.swift */; };
 		ED94ED7319DD77AE000C44CF /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = ED94ED7219DD77AE000C44CF /* GameScene.sks */; };
 		ED94ED7519DD77AE000C44CF /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED94ED7419DD77AE000C44CF /* GameScene.swift */; };
@@ -106,6 +109,9 @@
 		ED50844319E96C17003901E7 /* HomeScreenViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeScreenViewController.swift; sourceTree = "<group>"; };
 		ED7A1CCE19E05F0700B5ABEA /* SelectCarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectCarViewController.swift; sourceTree = "<group>"; };
 		ED7A1CD019E05F2700B5ABEA /* SelectLevelViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectLevelViewController.swift; sourceTree = "<group>"; };
+		ED91F52D19ECBC6400D816FB /* btn-multiplayer@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "btn-multiplayer@2x.png"; sourceTree = "<group>"; };
+		ED91F52F19ECCBC100D816FB /* Set.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Set.swift; sourceTree = "<group>"; };
+		ED91F53119ECCC0000D816FB /* MultiplayerProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultiplayerProtocol.swift; sourceTree = "<group>"; };
 		ED94ED6B19DD77AE000C44CF /* SwiftCircuitRacer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwiftCircuitRacer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED94ED6F19DD77AE000C44CF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		ED94ED7019DD77AE000C44CF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -252,6 +258,8 @@
 				ED94EE0219DD79EC000C44CF /* SKTUtils */,
 				ED94ED9419DD77E0000C44CF /* Resources */,
 				ED94ED6E19DD77AE000C44CF /* Supporting Files */,
+				ED91F52F19ECCBC100D816FB /* Set.swift */,
+				ED91F53119ECCC0000D816FB /* MultiplayerProtocol.swift */,
 			);
 			path = SwiftCircuitRacer;
 			sourceTree = "<group>";
@@ -373,6 +381,7 @@
 		ED94EDB919DD77E0000C44CF /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				ED91F52D19ECBC6400D816FB /* btn-multiplayer@2x.png */,
 				ED94EDBA19DD77E0000C44CF /* base@2x.png */,
 				ED94EDBB19DD77E0000C44CF /* btn-back@2x.png */,
 				ED94EDBC19DD77E0000C44CF /* btn-car1@2x.png */,
@@ -530,6 +539,7 @@
 				ED94EDF119DD77E0000C44CF /* btn-car2@2x.png in Resources */,
 				ED94EDFB19DD77E0000C44CF /* box.wav in Resources */,
 				ED94EDE219DD77E0000C44CF /* Icon60@3x.png in Resources */,
+				ED91F52E19ECBC6400D816FB /* btn-multiplayer@2x.png in Resources */,
 				ED94EDE019DD77E0000C44CF /* Icon60.png in Resources */,
 				ED94EDFE19DD77E0000C44CF /* horn.wav in Resources */,
 				ED94EDFF19DD77E0000C44CF /* lap.wav in Resources */,
@@ -608,6 +618,8 @@
 				ED7A1CCF19E05F0700B5ABEA /* SelectCarViewController.swift in Sources */,
 				ED94ED7119DD77AE000C44CF /* AppDelegate.swift in Sources */,
 				ED32ED6D19E95A6B008BFA8E /* GameKitHelper.swift in Sources */,
+				ED91F53219ECCC0000D816FB /* MultiplayerProtocol.swift in Sources */,
+				ED91F53019ECCBC100D816FB /* Set.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

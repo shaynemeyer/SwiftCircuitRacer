@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import GameKit
 
 class HomeScreenViewController: UIViewController {
 
@@ -35,5 +36,18 @@ class HomeScreenViewController: UIViewController {
     @IBAction func gameCenter(sender: UIButton) {
         SKTAudio.sharedInstance().playSoundEffect("button_press.wav")
         GameKitHelper.sharedInstance.showGKGameCenterViewController(self)
+    }
+    
+    @IBAction func playMultiplayerGame(sender: UIButton) {
+        if !GKLocalPlayer.localPlayer().authenticated {
+            return
+        }
+        SKTAudio.sharedInstance().playSoundEffect("button_press.wav")
+        
+        if let storyboard = storyboard {
+            let gameViewController = storyboard.instantiateViewControllerWithIdentifier("GameViewController") as GameViewController
+            gameViewController.noOfCars = 2
+            navigationController?.pushViewController(gameViewController, animated: false)
+        }
     }
 }

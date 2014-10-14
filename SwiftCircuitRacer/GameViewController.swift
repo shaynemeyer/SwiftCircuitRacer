@@ -8,7 +8,6 @@
 
 import UIKit
 import SpriteKit
-import CoreMotion
 
 extension SKNode {
     class func unarchiveFromFile(file : NSString) -> SKNode? {
@@ -33,21 +32,11 @@ class GameViewController: UIViewController {
     var carType: CarType!
     var levelType: LevelType!
     
-    let motionManager: CMMotionManager = CMMotionManager()
+    var noOfCars: Int?
+    var networkingEngine: MultiplayerNetworking?
     
-    func gameOverWithWin(didWin: Bool) {
-        let alert = UIAlertController(title: didWin ? "You won!" : "You lost",
-            message: "Game Over",
-            preferredStyle: .Alert)
-        presentViewController(alert, animated: true, completion: nil)
-    
-        let delayInSeconds = 3.0
-        let popTime = dispatch_time(DISPATCH_TIME_NOW, Int64(delayInSeconds) * Int64(NSEC_PER_SEC))
-        
-        dispatch_after(popTime, dispatch_get_main_queue(), {
-            self.goBack(alert)
-        })
-    }
+    @IBOutlet weak var pauseButton: UIButton!
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -67,55 +56,67 @@ class GameViewController: UIViewController {
             scene.levelType = levelType
             scene.carType = carType
             
-            skView.presentScene(scene)
-            
-            skView.showsPhysics = true
-            
-//            let padSide: CGFloat = view.frame.size.height / 2.5
-//            let padPadding: CGFloat = view.frame.size.height / 32
-//            
-//            analogControl = AnalogControl(frame: CGRectMake(padPadding,
-//                skView.frame.size.height - padPadding - padSide,
-//                padSide,
-//                padSide))
-//            
-//            analogControl.delegate = scene
-//            
-//            view.addSubview(analogControl)
-            
-            scene.gameOverBlock = {(didWin) in
-                self.gameOverWithWin(didWin)
+            if let nrOfCars = noOfCars {
+                if nrOfCars > 1 {
+                    scene.levelType = LevelType.Easy
+                    scene.noOfCars = nrOfCars
+                    
+                    networkingEngine = MultiplayerNetworking()
+                    networkingEngine!.noOfLaps = 5
+                    networkingEngine!.delegate = scene
+                    
+                    scene.networkingEngine = networkingEngine
+                    
+                    pauseButton.hidden = true
+                    GameKitHelper.sharedInstance.findMatch(nrOfCars, maxPlayers: nrOfCars, presentingViewController: self, delegate: networkingEngine!)
+                }
             }
             
-            motionManager.accelerometerUpdateInterval = 0.05
-            motionManager.startAccelerometerUpdates()
-            scene.motionManager = motionManager
+            skView.presentScene(scene)
+            skView.showsPhysics = true
+            
+            let padSide: CGFloat = view.frame.size.height / 2.5
+            let padPadding: CGFloat = view.frame.size.height / 32
+            
+            analogControl = AnalogControl(frame: CGRectMake(padPadding,
+                skView.frame.size.height - padPadding - padSide,
+                padSide,
+                padSide))
+            
+            analogControl.delegate = scene
+
+            view.addSubview(analogControl)
+            
+            scene.gameOverBlock = gameOverWithWin
+            scene.gameEndedBlock = goBack
         }
+    }
+
+    func gameOverWithWin(didWin: Bool) {
+        let alert = UIAlertController(title: didWin ? "You won!" : "You lost",
+            message: "Game Over",
+            preferredStyle: .Alert)
+        presentViewController(alert, animated: true, completion: nil)
+        
+        let delayInSeconds = 3.0
+        let popTime = dispatch_time(DISPATCH_TIME_NOW, Int64(delayInSeconds) * Int64(NSEC_PER_SEC))
+        
+        dispatch_after(popTime, dispatch_get_main_queue(), {
+            self.goBack(alert)
+        })
     }
     
-    deinit {
-        motionManager.stopAccelerometerUpdates()
+    // MARK: UIAlert Methods
+    
+    func goBack(alert: UIAlertController) {
+        alert.dismissViewControllerAnimated(true, completion: {
+            self.navigationController!.popToRootViewControllerAnimated(false)
+            return
+        })
     }
-
-    override func shouldAutorotate() -> Bool {
-        return true
-    }
-
-    override func supportedInterfaceOrientations() -> Int {
-        if UIDevice.currentDevice().userInterfaceIdiom == .Phone {
-            return Int(UIInterfaceOrientationMask.AllButUpsideDown.toRaw())
-        } else {
-            return Int(UIInterfaceOrientationMask.All.toRaw())
-        }
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Release any cached data, images, etc that aren't in use.
-    }
-
-    override func prefersStatusBarHidden() -> Bool {
-        return true
+    
+    func goBack() {
+        navigationController?.popToRootViewControllerAnimated(false)
     }
     
     // MARK: IBAction Methods
@@ -136,12 +137,26 @@ class GameViewController: UIViewController {
         presentViewController(alert, animated: true, completion: nil)
     }
     
-    // MARK: UIAlert Methods
-    
-    func goBack(alert: UIAlertController) {
-        alert.dismissViewControllerAnimated(true, completion: {
-            self.navigationController!.popToRootViewControllerAnimated(false)
-            return
-        })
+
+
+    override func shouldAutorotate() -> Bool {
+        return true
+    }
+
+    override func supportedInterfaceOrientations() -> Int {
+        if UIDevice.currentDevice().userInterfaceIdiom == .Phone {
+            return Int(UIInterfaceOrientationMask.AllButUpsideDown.toRaw())
+        } else {
+            return Int(UIInterfaceOrientationMask.All.toRaw())
+        }
+    }
+
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Release any cached data, images, etc that aren't in use.
+    }
+
+    override func prefersStatusBarHidden() -> Bool {
+        return true
     }
 }

@@ -20,10 +20,11 @@ enum LevelType: Int {
 
 var numberOfPlays: Int = 0
 
-class GameScene: SKScene, AnalogControlPositionChange, SKPhysicsContactDelegate {
+class GameScene: SKScene, AnalogControlPositionChange, SKPhysicsContactDelegate, MultiplayerProtocol {
     
     var carType: CarType!
     var levelType: LevelType!
+    
     var timeInSeconds = 0
     var numberOfLaps = 0
     
@@ -42,17 +43,8 @@ class GameScene: SKScene, AnalogControlPositionChange, SKPhysicsContactDelegate 
     typealias GameOverBlock = (didWin: Bool) -> Void
     var gameOverBlock: GameOverBlock?
     
-    var motionManager: CMMotionManager!
-    
-    let ay = Vector3(x: 0.63, y: 0.0, z: -0.92)
-    let az = Vector3(x: 0.0, y: 1.0, z: 0.0)
-    let ax = Vector3.crossProduct(Vector3(x: 0.0, y: 1.0, z: 0.0),
-        right: Vector3(x: 0.63, y: 0.0, z: -0.92)).normalized()
-    
-    let steerDeadZone = CGFloat(0.15)
-    
-    let blend = CGFloat(0.2)
-    var lastVector = Vector3(x: 0, y: 0, z: 0)
+    typealias GameEndedBlock = () -> Void
+    var gameEndedBlock: GameEndedBlock?
     
     var noOfCollisionsWithBoxes = 0
     
@@ -68,6 +60,12 @@ class GameScene: SKScene, AnalogControlPositionChange, SKPhysicsContactDelegate 
         "\(CarType.Red.toRaw())_\(LevelType.Medium.toRaw())" : "com.maynesoft.swiftcircuitracer.car3_level_medium_fastest_time",
         "\(CarType.Red.toRaw())_\(LevelType.Hard.toRaw())" : "com.maynesoft.swiftcircuitracer.car3_level_hard_fastest_time"]
     
+    var noOfCars: Int?
+    var networkingEngine: MultiplayerNetworking?
+    var isMultiplayerMode: Bool = false
+    var cars = [SKSpriteNode]()
+    var currentIndex: Int?
+    
     struct PhysicsCategories {
         static let CarCategoryMask: UInt32 = 1
         static let BoxCategoryMask: UInt32 = 2
@@ -79,13 +77,11 @@ class GameScene: SKScene, AnalogControlPositionChange, SKPhysicsContactDelegate 
 
     func initializeGame() {
         loadLevel()
-        loadTrackTexture()
         setupPhysicsBodies()
-        loadCarTexture()
-        loadObstacles()
+        loadTrackTexture()
         addLabels()
-        
-        maxSpeed = 500 * (2 + carType.toRaw())
+        loadObstacles()
+        //loadCarTexture()
         
         trackCenter = childNodeWithName("track")!.position
         
@@ -94,7 +90,72 @@ class GameScene: SKScene, AnalogControlPositionChange, SKPhysicsContactDelegate 
         lapSoundAction = SKAction.playSoundFileNamed("lap.wav", waitForCompletion: false)
         nitroSoundAction = SKAction.playSoundFileNamed("nitro.wav", waitForCompletion: false)
         
+        if let nrOfCars = noOfCars {
+            if nrOfCars > 1 {
+                /**
+                We're keeping the number of cars fixed to 2
+                However, this can be changed to support any number by simply removing the constraint and adding more car types
+                */
+                noOfCars = 2
+                initializeMultiplayerGame()
+            } else {
+                initializeSinglePlayerGame()
+            }
+        } else {
+            initializeSinglePlayerGame()
+        }
+        
         physicsWorld.contactDelegate = self
+    }
+    
+    func initializeSinglePlayerGame() {
+        maxSpeed = 500 * (2 + carType.toRaw())
+        physicsWorld.contactDelegate = self
+        
+        let car = addCar(carType, atPosition: CGPointMake(CGRectGetMidX(childNodeWithName("track")!.frame) - 160, CGRectGetMidY(childNodeWithName("track")!.frame) - 320))
+        cars.append(car)
+        currentIndex = 0
+    }
+    
+    func initializeMultiplayerGame() {
+        numberOfLaps = 5
+        isMultiplayerMode = true
+        maxSpeed = 600
+        
+        time.hidden = true
+        laps.text = "Laps: \(numberOfLaps)"
+        
+        box1.removeFromParent()
+        box2.removeFromParent()
+        
+        var xDisplacement: CGFloat = 140
+        for index in 0..<noOfCars! {
+            //1 Select a car
+            let carType = CarType.fromRaw(index)
+            
+            //2 Set the position
+            let car = addCar(carType!, atPosition: CGPointMake(CGRectGetMidX(childNodeWithName("track")!.frame) - xDisplacement, CGRectGetMidY(childNodeWithName("track")!.frame) - (index % 2 == 0 ? 320 : 460)))
+            
+            //3 Add to cars array
+            cars.append(car)
+            
+            xDisplacement = ((index + 1) % 2) == 0 ? xDisplacement + 240 : xDisplacement
+        }
+    }
+    
+    func addCar(carType: CarType, atPosition position: CGPoint) -> SKSpriteNode {
+        let atlas = SKTextureAtlas(named: "sprites")
+        let car = SKSpriteNode(texture: atlas.textureNamed("car_\(carType.toRaw() + 1).png"))
+        car.position = position
+        
+        car.physicsBody = SKPhysicsBody(rectangleOfSize: car.frame.size)
+        car.physicsBody!.categoryBitMask = PhysicsCategories.CarCategoryMask
+        car.physicsBody!.collisionBitMask = PhysicsCategories.BoxCategoryMask | PhysicsCategories.CarCategoryMask
+        car.physicsBody!.contactTestBitMask = PhysicsCategories.BoxCategoryMask
+        car.physicsBody!.dynamic = true
+        
+        addChild(car)
+        return car
     }
     
     func loadLevel() {
@@ -135,16 +196,6 @@ class GameScene: SKScene, AnalogControlPositionChange, SKPhysicsContactDelegate 
         physicsBody = SKPhysicsBody(edgeLoopFromRect: playableRect)
     }
     
-    func loadCarTexture() {
-        let car = self.childNodeWithName("car") as SKSpriteNode
-        car.texture = SKTexture(imageNamed: "car_\(carType.toRaw() + 1)")
-        
-        /**
-            Defines what logical 'categories' of bodies this body generates intersection notifications with.
-        */
-        car.physicsBody?.contactTestBitMask = PhysicsCategories.BoxCategoryMask
-    }
-    
     func loadObstacles() {
         box1 = self.childNodeWithName("box_1") as SKSpriteNode
         box2 = self.childNodeWithName("box_2") as SKSpriteNode
@@ -159,12 +210,16 @@ class GameScene: SKScene, AnalogControlPositionChange, SKPhysicsContactDelegate 
     }
     
     func analogControlPositionChanged(analogControl: AnalogControl, position: CGPoint) {
-        let car = self.childNodeWithName("car") as SKSpriteNode
-        
-        car.physicsBody!.velocity = CGVector(position.x * CGFloat(maxSpeed), -position.y * CGFloat(maxSpeed))
-        
-        if position != CGPointZero {
-            car.zRotation = CGPointMake(position.x, -position.y).angle
+        if let index = currentIndex {
+            let car = cars[index]
+            
+            car.physicsBody!.velocity = CGVector(
+                position.x * CGFloat(maxSpeed),
+                -position.y * CGFloat(maxSpeed))
+            
+            if position != CGPointZero {
+                car.zRotation = CGPointMake(position.x, -position.y).angle
+            }
         }
     }
     
@@ -186,119 +241,39 @@ class GameScene: SKScene, AnalogControlPositionChange, SKPhysicsContactDelegate 
             }
         }
         
-        let carPosition = childNodeWithName("car")!.position
-        let vector = carPosition - trackCenter
-        let progressAngle = Double(vector.angle) + M_PI
-        
-        // check whether the current angle is greater than the next target, but only by a little it: M_PI_4. This prevents the player from going backward.
-        if progressAngle > nextProgressAngle && (progressAngle - nextProgressAngle) < M_PI_4 {
-            // move on to the next quadrant.
-            nextProgressAngle += M_PI_2
+        if let index = currentIndex {
+            let carPosition = cars[index].position
+            let vector = carPosition - trackCenter
+            let progressAngle = Double(vector.angle) + M_PI
             
-            //
-            if nextProgressAngle >= (2 * M_PI) {
-                nextProgressAngle = 0
-            }
-            
-            // if next target angle = M_PI, car has just passed the finish line.
-            if fabs(nextProgressAngle - M_PI) < Double(FLT_EPSILON) {
-                // lap completed!
-                numberOfLaps -= 1
-                laps.text = "Laps: \(numberOfLaps)"
-                runAction(lapSoundAction)
-            }
-        }
-        
-        if timeInSeconds < 0 || numberOfLaps == 0 {
-            paused = true
-            
-            if let block = gameOverBlock {
-                reportAchievementsForGameState(numberOfLaps == 0)
-                reportScoreToGameCenter()
-                block(didWin: numberOfLaps == 0)
-            }
-        }
-//        
-//        if motionManager.accelerometerData != nil {
-//            println("accelerometer [\(motionManager.accelerometerData.acceleration.x), \(motionManager.accelerometerData.acceleration.y),               \(motionManager.accelerometerData.acceleration.z)]")
-//        }
-        
-        moveCarFromAcceleration()
-    }
-    
-    // MARK: Accelerometer Methods
-    
-    func moveCarFromAcceleration() {
-        var accel2D = CGPoint.zeroPoint
-        
-        if motionManager.accelerometerData == nil {
-            println("no acceleration data yet")
-            return
-        }
-        
-        var raw = Vector3 (x: CGFloat(motionManager.accelerometerData.acceleration.x),
-            y: CGFloat(motionManager.accelerometerData.acceleration.y
-            ), z: CGFloat(motionManager.accelerometerData.acceleration.z))
-        
-        raw = lowPassWithVector(raw)
-        
-        accel2D.x = Vector3.dotProduct(raw, right: az)
-        accel2D.y = Vector3.dotProduct(raw, right: ax)
-        accel2D.normalize()
-        
-        if abs(accel2D.x) < steerDeadZone {
-            accel2D.x = 0
-        }
-        
-        if abs(accel2D.y) < steerDeadZone {
-            accel2D.y = 0
-        }
-        
-        let maxAccelerationPerSecond = maxSpeed
-        let car = childNodeWithName("car") as SKSpriteNode
-        car.physicsBody!.velocity = CGVector(accel2D.x * CGFloat(maxAccelerationPerSecond),
-            accel2D.y * CGFloat(maxAccelerationPerSecond))
-        
-        // if the car is in the deadzone, don't rotate.
-        if accel2D.x != 0 || accel2D.y != 0 {
-            // get the angle of acceleration vector
-            let orientationFromVelocity = CGPoint(x: car.physicsBody!.velocity.dx, y: car.physicsBody!.velocity.dy).angle
-            
-            var angleDelta = CGFloat(0.0)
-            
-            // if the car needs to rotate more than 175 degrees to 185 degrees, that means the value of zRotation need to change from 3.05 radians to -3.05 radians.
-            if abs(orientationFromVelocity - car.zRotation) > 1 {
-                // prevent wild rotation
-                angleDelta = orientationFromVelocity - car.zRotation
-            } else {
-                // blend rotation
-                let blendFactor = CGFloat(0.25)
-                angleDelta = (orientationFromVelocity - car.zRotation) * blendFactor
+            // check whether the current angle is greater than the next target, but only by a little it: M_PI_4. This prevents the player from going backward.
+            if progressAngle > nextProgressAngle && (progressAngle - nextProgressAngle) < M_PI_4 {
+                // move on to the next quadrant.
+                nextProgressAngle += M_PI_2
                 
-                angleDelta = shortestAngleBetween(car.zRotation, car.zRotation + angleDelta)
+                //
+                if nextProgressAngle >= (2 * M_PI) {
+                    nextProgressAngle = 0
+                }
+                
+                // if next target angle = M_PI, car has just passed the finish line.
+                if fabs(nextProgressAngle - M_PI) < Double(FLT_EPSILON) {
+                    // lap completed!
+                    numberOfLaps -= 1
+                    laps.text = "Laps: \(numberOfLaps)"
+                    runAction(lapSoundAction)
+                }
             }
-            
-            // adjust the current rotation by angleDelta 
-            car.zRotation += angleDelta
-        }
         
-    }
-    
-    func lowPassWithVector(var vector: Vector3) -> Vector3 {
-        vector.x = vector.x * blend + lastVector.x * (1.0 - blend)
-        vector.y = vector.y * blend + lastVector.y * (1.0 - blend)
-        vector.z = vector.z * blend + lastVector.z * (1.0 - blend)
-        
-        lastVector = vector
-        return vector
-    }
-    
-    // MARK: Collision Detection Methods
-    
-    func didBeginContact(contact: SKPhysicsContact) {
-        if contact.bodyA.categoryBitMask != UInt32.max && contact.bodyB.categoryBitMask != UInt32.max && (contact.bodyA.categoryBitMask + contact.bodyB.categoryBitMask == PhysicsCategories.CarCategoryMask + PhysicsCategories.BoxCategoryMask) {
-            noOfCollisionsWithBoxes += 1
-            runAction(boxSoundAction)
+            if timeInSeconds < 0 || numberOfLaps == 0 && !isMultiplayerMode{
+                paused = true
+                
+                if let block = gameOverBlock {
+                    reportAchievementsForGameState(numberOfLaps == 0)
+                    reportScoreToGameCenter()
+                    block(didWin: numberOfLaps == 0)
+                }
+            }
         }
     }
     
@@ -329,6 +304,23 @@ class GameScene: SKScene, AnalogControlPositionChange, SKPhysicsContactDelegate 
         
         GameKitHelper.sharedInstance.reportScore(Int64(timeToComplete),
             forLeaderboardId: leaderBoardIDMap["\(carType.toRaw())_\(levelType.toRaw())"]!)
+    }
+    
+    // MARK: MultiplayerProtocol method
+    func matchEnded() {
+        if let block = gameEndedBlock {
+            paused = true
+            block()
+        }
+    }
+    
+    // MARK: SKPhysicsContactDelegate method
+    
+    func didBeginContact(contact: SKPhysicsContact) {
+        if contact.bodyA.categoryBitMask != UInt32.max && contact.bodyB.categoryBitMask != UInt32.max && (contact.bodyA.categoryBitMask + contact.bodyB.categoryBitMask == PhysicsCategories.CarCategoryMask + PhysicsCategories.BoxCategoryMask) {
+            noOfCollisionsWithBoxes += 1
+            runAction(boxSoundAction)
+        }
     }
 }
 
