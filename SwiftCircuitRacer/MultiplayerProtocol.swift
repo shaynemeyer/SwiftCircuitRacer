@@ -82,6 +82,7 @@ class MultiplayerNetworking: NSObject, GameKitHelperDelegate {
         receivedAllRandomNumbers = false
         
         orderOfPlayers = [RandomNumberDetails]()
+        orderOfPlayers.append(RandomNumberDetails(playerId: GKLocalPlayer.localPlayer().playerID, randomNumber: ourRandomNumber))
         super.init()
     }
     
@@ -134,10 +135,45 @@ class MultiplayerNetworking: NSObject, GameKitHelperDelegate {
     }
     
     func processReceivedRandomNumber(randomNumberDetails: RandomNumberDetails) {
+        // 1 
+        let mutableArray = NSMutableArray(array: orderOfPlayers)
+        mutableArray.addObject(randomNumberDetails)
         
+        // 2
+        let sortByRandomNumber = NSSortDescriptor(key: "randomNumber", ascending: false)
+        let sortDescriptors = [sortByRandomNumber]
+        mutableArray.sortUsingDescriptors(sortDescriptors)
+        
+        // 3
+        orderOfPlayers = NSArray(array: mutableArray) as [RandomNumberDetails]
+        
+        // 4
+        if allRandomNumbersAreReceived() {
+            receivedAllRandomNumbers = true
+        }
+    }
+    
+    func allRandomNumbersAreReceived() -> Bool {
+        var receivedRandomNumbers = Set<UInt32>()
+        
+        for playerDetail in orderOfPlayers {
+            receivedRandomNumbers.insert(playerDetail.randomNumber)
+        }
+        
+        if let multiplayerMatch = GameKitHelper.sharedInstance.multiplayerMatch {
+            if receivedRandomNumbers.count == multiplayerMatch.playerIDs.count + 1 {
+                return true
+            }
+        }
+        return false
     }
     
     func isLocalPLayerPlayer1() -> Bool {
+        let playerDetail = orderOfPlayers[0]
+        if playerDetail.playerId == GKLocalPlayer.localPlayer().playerID {
+            println("I'm player 1.. w00t :]")
+            return true
+        }
         return false
     }
     
