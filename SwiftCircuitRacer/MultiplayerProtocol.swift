@@ -13,6 +13,7 @@ protocol MultiplayerProtocol {
     func matchEnded()
     func setCurrentPlayerIndex(index: Int)
     func setPositionOfCar(index: Int, dx: Float, dy: Float, rotation: Float)
+    func gameOver(didLocalPlayerWin: Bool)
 }
 
 class MultiplayerNetworking: NSObject, GameKitHelperDelegate {
@@ -135,6 +136,20 @@ class MultiplayerNetworking: NSObject, GameKitHelperDelegate {
         sendData(data)
     }
     
+    func sendLapComplete() {
+        var lapCompleteMessage = MessageLapComplete(message: Message(messageType: MessageType.LapComplete))
+        let data = NSData(bytes: &lapCompleteMessage, length: sizeof(MessageLapComplete))
+        
+        sendData(data)
+        
+        reduceNumberOfLapsForPlayer(GKLocalPlayer.localPlayer().playerID)
+        
+        if isGameOver() && isPlayer1 {
+            sendGameOverMessage()
+            delegate?.gameOver(hasLocalPlayerWon())
+        }
+    }
+    
     func indexForLocalPlayer() -> Int? {
         return indexForPlayer(GKLocalPlayer.localPlayer().playerID)
     }
@@ -213,6 +228,49 @@ class MultiplayerNetworking: NSObject, GameKitHelperDelegate {
         return false
     }
     
+    func isGameOver() -> Bool {
+        for (playerId, numberOfLaps) in lapCompleteInformation {
+            if numberOfLaps == 0 {
+                return true
+            }
+        }
+        return false
+    }
+    
+    func sendGameOverMessage() {
+        var gameOverMessage = MessageGameOver(message: Message(messageType: MessageType.GameOver))
+        let data = NSData(bytes: &gameOverMessage, length: sizeof(MessageGameOver))
+        sendData(data)
+    }
+    
+    func hasLocalPlayerWon() -> Bool {
+        let winningIndex = indexForWinningPlayer()
+        
+        if let index = winningIndex {
+            let playerDetails = orderOfPlayers[index]
+            
+            if playerDetails.playerId == GKLocalPlayer.localPlayer().playerID {
+                return true
+            }
+        }
+        return false
+    }
+    
+    func indexForWinningPlayer() -> Int? {
+        var winningPlayerId: String?
+        
+        for (playerId, numberOfLaps) in lapCompleteInformation {
+            if numberOfLaps == 0 {
+                winningPlayerId = playerId
+                break
+            }
+        }
+        if let playerId = winningPlayerId {
+            return indexForPlayer(playerId)
+        }
+        return nil
+    }
+    
     // MARK: GameKitHelperDelegate methods
     
     func matchStarted() {
@@ -228,6 +286,7 @@ class MultiplayerNetworking: NSObject, GameKitHelperDelegate {
     }
     
     func matchEnded() {
+        GameKitHelper.sharedInstance.multiplayerMatch?.disconnect()
         delegate?.matchEnded()
     }
     
@@ -295,7 +354,7 @@ class MultiplayerNetworking: NSObject, GameKitHelperDelegate {
         } else if message.messageType == MessageType.LapComplete {
             reduceNumberOfLapsForPlayer(player)
         } else if message.messageType == MessageType.GameOver {
-            
+            delegate?.gameOver(hasLocalPlayerWon())
         }
     }
 }

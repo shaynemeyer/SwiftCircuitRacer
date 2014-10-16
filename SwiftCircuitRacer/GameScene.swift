@@ -264,6 +264,7 @@ class GameScene: SKScene, AnalogControlPositionChange, SKPhysicsContactDelegate,
                     numberOfLaps -= 1
                     laps.text = "Laps: \(numberOfLaps)"
                     runAction(lapSoundAction)
+                    networkingEngine?.sendLapComplete()
                 }
             }
         
@@ -327,6 +328,12 @@ class GameScene: SKScene, AnalogControlPositionChange, SKPhysicsContactDelegate,
             car.zRotation = CGFloat(rotation)
         }
     }
+    
+    func gameOver(didLocalPlayerWin: Bool) {
+        paused = true
+        gameOverBlock?(didWin: didLocalPlayerWin)
+    }
+    
     
     // MARK: SKPhysicsContactDelegate method
     
