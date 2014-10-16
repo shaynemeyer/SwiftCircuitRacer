@@ -11,6 +11,8 @@ import GameKit
 
 protocol MultiplayerProtocol {
     func matchEnded()
+    func setCurrentPlayerIndex(index: Int)
+    func setPositionOfCar(index: Int, dx: Float, dy: Float, rotation: Float)
 }
 
 class MultiplayerNetworking: NSObject, GameKitHelperDelegate {
@@ -22,6 +24,7 @@ class MultiplayerNetworking: NSObject, GameKitHelperDelegate {
     var isPlayer1: Bool
     var receivedAllRandomNumbers: Bool
     var orderOfPlayers: [RandomNumberDetails]
+    var lapCompleteInformation: Dictionary<String, Int>
     
     enum GameState: Int {
         case WaitingForMatch, WaitingForRandomNumber, WaitingForStart, Playing, Done
@@ -82,20 +85,9 @@ class MultiplayerNetworking: NSObject, GameKitHelperDelegate {
         receivedAllRandomNumbers = false
         
         orderOfPlayers = [RandomNumberDetails]()
+        lapCompleteInformation = Dictionary<String, Int>()
         orderOfPlayers.append(RandomNumberDetails(playerId: GKLocalPlayer.localPlayer().playerID, randomNumber: ourRandomNumber))
         super.init()
-    }
-    
-    // MARK: GameKitHelperDelegate methods
-    func matchStarted() {
-        println("Match has started successfuly")
-        if receivedAllRandomNumbers {
-            gameState = GameState.WaitingForStart
-        } else {
-            gameState = GameState.WaitingForRandomNumber
-        }
-        sendRandomNumber()
-        tryStartGame()
     }
     
     func sendRandomNumber() {
@@ -109,6 +101,9 @@ class MultiplayerNetworking: NSObject, GameKitHelperDelegate {
         if isPlayer1 && gameState == GameState.WaitingForStart {
             gameState = GameState.Playing
             sendBeginGame()
+            
+            // first player
+            delegate?.setCurrentPlayerIndex(0)
         }
     }
     
@@ -131,6 +126,47 @@ class MultiplayerNetworking: NSObject, GameKitHelperDelegate {
                     matchEnded()
                 }
             }
+        }
+    }
+    
+    func sendMove(dx: Float, dy: Float, rotation: Float) {
+        var messageMove = MessageMove(message: Message(messageType: MessageType.Move), dx: dx, dy: dy, rotate: rotation)
+        let data = NSData(bytes: &messageMove, length: sizeof(MessageMove))
+        sendData(data)
+    }
+    
+    func indexForLocalPlayer() -> Int? {
+        return indexForPlayer(GKLocalPlayer.localPlayer().playerID)
+    }
+    
+    func indexForPlayer(playerId: String) -> Int? {
+        var idx: Int?
+        
+        for (index, playerDetail) in enumerate(orderOfPlayers) {
+            let pId = playerDetail.playerId
+            if pId == playerId {
+                idx = index
+                break
+            }
+        }
+        return idx
+    }
+    
+    func setupLapCompleteInformation() {
+        if let multiplayerMatch = GameKitHelper.sharedInstance.multiplayerMatch {
+            let playerIds =  multiplayerMatch.playerIDs as [String]
+            
+            for playerId in playerIds {
+                lapCompleteInformation[playerId] = noOfLaps
+            }
+            lapCompleteInformation[GKLocalPlayer.localPlayer().playerID] = noOfLaps
+        }
+    }
+    
+    func reduceNumberOfLapsForPlayer(playerId: String) {
+        if let laps = lapCompleteInformation[playerId] {
+            lapCompleteInformation[playerId] = laps - 1
+            println("Reduced laps:\(laps - 1)")
         }
     }
     
@@ -175,6 +211,20 @@ class MultiplayerNetworking: NSObject, GameKitHelperDelegate {
             return true
         }
         return false
+    }
+    
+    // MARK: GameKitHelperDelegate methods
+    
+    func matchStarted() {
+        println("Match has started successfuly")
+        if receivedAllRandomNumbers {
+            gameState = GameState.WaitingForStart
+        } else {
+            gameState = GameState.WaitingForRandomNumber
+        }
+        sendRandomNumber()
+        tryStartGame()
+        setupLapCompleteInformation()
     }
     
     func matchEnded() {
@@ -230,6 +280,22 @@ class MultiplayerNetworking: NSObject, GameKitHelperDelegate {
                 }
                 tryStartGame()
             }
+        } else if message.messageType == MessageType.GameBegin {
+            gameState = GameState.Playing
+            
+            if let localPlayerIndex = indexForLocalPlayer() {
+                delegate?.setCurrentPlayerIndex(localPlayerIndex)
+            }
+        } else if message.messageType == MessageType.Move {
+            let messageMove = UnsafePointer<MessageMove>(data.bytes).memory
+            
+            println("Dx: \(messageMove.dx) Dy: \(messageMove.dy) Rotation: \(messageMove.rotate)")
+            
+            delegate?.setPositionOfCar(indexForPlayer(player)!, dx: messageMove.dx, dy: messageMove.dy, rotation: messageMove.rotate)
+        } else if message.messageType == MessageType.LapComplete {
+            reduceNumberOfLapsForPlayer(player)
+        } else if message.messageType == MessageType.GameOver {
+            
         }
     }
 }

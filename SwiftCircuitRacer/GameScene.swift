@@ -220,6 +220,8 @@ class GameScene: SKScene, AnalogControlPositionChange, SKPhysicsContactDelegate,
             if position != CGPointZero {
                 car.zRotation = CGPointMake(position.x, -position.y).angle
             }
+            
+            networkingEngine?.sendMove(Float(car.physicsBody!.velocity.dx), dy: Float(car.physicsBody!.velocity.dy), rotation: Float(car.zRotation))
         }
     }
     
@@ -311,6 +313,18 @@ class GameScene: SKScene, AnalogControlPositionChange, SKPhysicsContactDelegate,
         if let block = gameEndedBlock {
             paused = true
             block()
+        }
+    }
+    
+    func setCurrentPlayerIndex(index: Int) {
+        currentIndex = index
+    }
+    
+    func setPositionOfCar(index: Int, dx: Float, dy: Float, rotation: Float) {
+        let car = cars[index] as SKSpriteNode
+        car.physicsBody?.velocity = CGVector(CGFloat(dx), CGFloat(dy))
+        if rotation != 0 {
+            car.zRotation = CGFloat(rotation)
         }
     }
     
