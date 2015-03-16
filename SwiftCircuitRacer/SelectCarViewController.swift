@@ -33,7 +33,7 @@ class SelectCarViewController: UIViewController {
         
         let levelViewController = self.storyboard!.instantiateViewControllerWithIdentifier("SelectLevelViewController") as SelectLevelViewController
         
-        levelViewController.carType = CarType.fromRaw(sender.tag)!
+        levelViewController.carType = CarType(rawValue: sender.tag)!
         navigationController!.pushViewController(levelViewController, animated: true)
     }
     
