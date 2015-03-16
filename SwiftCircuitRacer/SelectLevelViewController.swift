@@ -31,7 +31,7 @@ class SelectLevelViewController: UIViewController {
     @IBAction func levelButtonPressed(sender: UIButton) {
         SKTAudio.sharedInstance().playSoundEffect("button_press.wav")
         
-        let levelType = LevelType.fromRaw(sender.tag)
+        let levelType = LevelType(rawValue: sender.tag)
         
         let gameViewController = self.storyboard!.instantiateViewControllerWithIdentifier("GameViewController") as GameViewController
         

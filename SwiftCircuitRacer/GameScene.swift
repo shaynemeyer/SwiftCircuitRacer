@@ -50,15 +50,15 @@ class GameScene: SKScene, AnalogControlPositionChange, SKPhysicsContactDelegate,
     
     var maxTime = 0
     let leaderBoardIDMap = [
-        "\(CarType.Yellow.toRaw())_\(LevelType.Easy.toRaw())" : "com.maynesoft.swiftcircuitracer.car1_level_easy_fastest_time",
-        "\(CarType.Yellow.toRaw())_\(LevelType.Medium.toRaw())" : "com.maynesoft.swiftcircuitracer.car1_level_medium_fastest_time",
-        "\(CarType.Yellow.toRaw())_\(LevelType.Hard.toRaw())" : "com.maynesoft.swiftcircuitracer.car1_level_hard_fastest_time",
-        "\(CarType.Blue.toRaw())_\(LevelType.Easy.toRaw())" : "com.maynesoft.swiftcircuitracer.car2_level_easy_fastest_time",
-        "\(CarType.Blue.toRaw())_\(LevelType.Medium.toRaw())" : "com.maynesoft.swiftcircuitracer.car2_level_medium_fastest_time",
-        "\(CarType.Blue.toRaw())_\(LevelType.Hard.toRaw())" : "com.maynesoft.swiftcircuitracer.car2_level_hard_fastest_time",
-        "\(CarType.Red.toRaw())_\(LevelType.Easy.toRaw())" : "com.maynesoft.swiftcircuitracer.car3_level_easy_fastest_time",
-        "\(CarType.Red.toRaw())_\(LevelType.Medium.toRaw())" : "com.maynesoft.swiftcircuitracer.car3_level_medium_fastest_time",
-        "\(CarType.Red.toRaw())_\(LevelType.Hard.toRaw())" : "com.maynesoft.swiftcircuitracer.car3_level_hard_fastest_time"]
+        "\(CarType.Yellow.rawValue)_\(LevelType.Easy.rawValue)" : "com.maynesoft.swiftcircuitracer.car1_level_easy_fastest_time",
+        "\(CarType.Yellow.rawValue)_\(LevelType.Medium.rawValue)" : "com.maynesoft.swiftcircuitracer.car1_level_medium_fastest_time",
+        "\(CarType.Yellow.rawValue)_\(LevelType.Hard.rawValue)" : "com.maynesoft.swiftcircuitracer.car1_level_hard_fastest_time",
+        "\(CarType.Blue.rawValue)_\(LevelType.Easy.rawValue)" : "com.maynesoft.swiftcircuitracer.car2_level_easy_fastest_time",
+        "\(CarType.Blue.rawValue)_\(LevelType.Medium.rawValue)" : "com.maynesoft.swiftcircuitracer.car2_level_medium_fastest_time",
+        "\(CarType.Blue.rawValue)_\(LevelType.Hard.rawValue)" : "com.maynesoft.swiftcircuitracer.car2_level_hard_fastest_time",
+        "\(CarType.Red.rawValue)_\(LevelType.Easy.rawValue)" : "com.maynesoft.swiftcircuitracer.car3_level_easy_fastest_time",
+        "\(CarType.Red.rawValue)_\(LevelType.Medium.rawValue)" : "com.maynesoft.swiftcircuitracer.car3_level_medium_fastest_time",
+        "\(CarType.Red.rawValue)_\(LevelType.Hard.rawValue)" : "com.maynesoft.swiftcircuitracer.car3_level_hard_fastest_time"]
     
     var noOfCars: Int?
     var networkingEngine: MultiplayerNetworking?
@@ -109,7 +109,7 @@ class GameScene: SKScene, AnalogControlPositionChange, SKPhysicsContactDelegate,
     }
     
     func initializeSinglePlayerGame() {
-        maxSpeed = 500 * (2 + carType.toRaw())
+        maxSpeed = 500 * (2 + carType.rawValue)
         physicsWorld.contactDelegate = self
         
         let car = addCar(carType, atPosition: CGPointMake(CGRectGetMidX(childNodeWithName("track")!.frame) - 160, CGRectGetMidY(childNodeWithName("track")!.frame) - 320))
@@ -131,7 +131,7 @@ class GameScene: SKScene, AnalogControlPositionChange, SKPhysicsContactDelegate,
         var xDisplacement: CGFloat = 140
         for index in 0..<noOfCars! {
             //1 Select a car
-            let carType = CarType.fromRaw(index)
+            let carType = CarType(rawValue: index)
             
             //2 Set the position
             let car = addCar(carType!, atPosition: CGPointMake(CGRectGetMidX(childNodeWithName("track")!.frame) - xDisplacement, CGRectGetMidY(childNodeWithName("track")!.frame) - (index % 2 == 0 ? 320 : 460)))
@@ -145,7 +145,7 @@ class GameScene: SKScene, AnalogControlPositionChange, SKPhysicsContactDelegate,
     
     func addCar(carType: CarType, atPosition position: CGPoint) -> SKSpriteNode {
         let atlas = SKTextureAtlas(named: "sprites")
-        let car = SKSpriteNode(texture: atlas.textureNamed("car_\(carType.toRaw() + 1).png"))
+        let car = SKSpriteNode(texture: atlas.textureNamed("car_\(carType.rawValue + 1).png"))
         car.position = position
         
         car.physicsBody = SKPhysicsBody(rectangleOfSize: car.frame.size)
@@ -161,9 +161,9 @@ class GameScene: SKScene, AnalogControlPositionChange, SKPhysicsContactDelegate,
     func loadLevel() {
         let filePath = NSBundle.mainBundle().pathForResource("LevelDetails", ofType: "plist")!
         
-        let levels = NSArray(contentsOfFile: filePath)
+        let levels = NSArray(contentsOfFile: filePath)!
         
-        let levelData = levels[levelType.toRaw()] as NSDictionary
+        let levelData = levels[levelType.rawValue] as NSDictionary
         
         timeInSeconds = levelData["time"] as Int
         numberOfLaps = levelData["laps"] as Int
@@ -173,7 +173,7 @@ class GameScene: SKScene, AnalogControlPositionChange, SKPhysicsContactDelegate,
     
     func loadTrackTexture() {
         let track = self.childNodeWithName("track") as SKSpriteNode
-        track.texture = SKTexture(imageNamed: "track_\(levelType.toRaw() + 1)")
+        track.texture = SKTexture(imageNamed: "track_\(levelType.rawValue + 1)")
     }
     
     func setupPhysicsBodies() {
@@ -214,8 +214,8 @@ class GameScene: SKScene, AnalogControlPositionChange, SKPhysicsContactDelegate,
             let car = cars[index]
             
             car.physicsBody!.velocity = CGVector(
-                position.x * CGFloat(maxSpeed),
-                -position.y * CGFloat(maxSpeed))
+                dx: position.x * CGFloat(maxSpeed),
+                dy: -position.y * CGFloat(maxSpeed))
             
             if position != CGPointZero {
                 car.zRotation = CGPointMake(position.x, -position.y).angle
@@ -306,7 +306,7 @@ class GameScene: SKScene, AnalogControlPositionChange, SKPhysicsContactDelegate,
         let timeToComplete = maxTime - timeInSeconds
         
         GameKitHelper.sharedInstance.reportScore(Int64(timeToComplete),
-            forLeaderboardId: leaderBoardIDMap["\(carType.toRaw())_\(levelType.toRaw())"]!)
+            forLeaderboardId: leaderBoardIDMap["\(carType.rawValue)_\(levelType.rawValue)"]!)
     }
     
     // MARK: MultiplayerProtocol method
@@ -323,7 +323,7 @@ class GameScene: SKScene, AnalogControlPositionChange, SKPhysicsContactDelegate,
     
     func setPositionOfCar(index: Int, dx: Float, dy: Float, rotation: Float) {
         let car = cars[index] as SKSpriteNode
-        car.physicsBody?.velocity = CGVector(CGFloat(dx), CGFloat(dy))
+        car.physicsBody?.velocity = CGVector(dx: CGFloat(dx), dy: CGFloat(dy))
         if rotation != 0 {
             car.zRotation = CGFloat(rotation)
         }
